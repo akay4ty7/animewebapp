@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+    <title>home</title>
+  </head>
+  <body>
+    <div class="cont01">
+      <h1>Anime Arc</h1>
+      <p>This is a web application that allows you to convert photographs into anime.</p>
+    </div>
+
+<div class="cont01">
+      <span>
+        <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
+      </span><br/><br/>
+      <img id="output">
+      <form action="add-here">
+        <input class="button" type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+
+  <script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src)
+    }
+  };
+</script>
+
+</html>
