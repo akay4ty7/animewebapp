@@ -12,10 +12,10 @@ def resize(imgPath,savePath):
  for file in files:
      fileType = os.path.splitext(file)
      if fileType[1] == '.png':
-        new_png = Image.open(imgPath+'/'+file) #打开图片
-        #new_png = new_png.resize((1000, 1000),Image.ANTIALIAS) #改变图片大小
+        new_png = Image.open(imgPath+'/'+file) #open image
+        #new_png = new_png.resize((1000, 1000),Image.ANTIALIAS) #resize image
         new_png = new_png.convert('L') # convert image to black and white
-        new_png.save(savePath+'/'+file) #保存图片
+        new_png.save(savePath+'/'+file) #save image
         print('down!')
         print('****************')
 
