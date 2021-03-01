@@ -17,14 +17,16 @@
         </div>
 
     <div class="cont01">
-          <span>
-            <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
-          </span><br/><br/>
-          <img id="output">
-          <form action="/handleUpload" method="post" enctype="multipart/form-data">
-              Choose the file: <input type="file" name="photo"/><BR>
+            <form action="/handleUpload" method="post" enctype="multipart/form-data">
+            <span>
+             Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
+             </span><br/><br/>
+          <img id="output"><br/>
             <input class="button" type="submit" value="Upload">
-          </form>
+            </form>
+            <form action="/get-image" method="post"><br/>
+            <input class="button" type="submit" value="Download">
+            </form>
         </div>
       </body>
 
