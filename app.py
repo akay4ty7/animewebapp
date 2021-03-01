@@ -24,9 +24,9 @@ def allow_image(filename):
 
 app.config["CLIENT_IMAGES"] = "D:/new main folider/Github clones/animewebapp/static/client/img"
 
-@app.route("/get-image", methods=['post'])
+@app.route("/get-image", methods=['get'])
 def get_image():
-    return send_from_directory(app.config["CLIENT_IMAGES"], filename='a.png', as_attachment=True)
+    return send_from_directory(app.config["CLIENT_IMAGES"], filename='a.jpg', as_attachment=True)
 
 
 @app.route("/handleUpload", methods=['post'])
