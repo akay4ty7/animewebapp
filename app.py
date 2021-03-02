@@ -22,7 +22,7 @@ def allow_image(filename):
     else:
         return False
 
-app.config["CLIENT_IMAGES"] = "D:/new main folider/Github clones/animewebapp/static/client/img"
+app.config["CLIENT_IMAGES"] = "./static/client/img"
 
 @app.route("/get-image", methods=['get'])
 def get_image():
@@ -37,7 +37,7 @@ def handleFileUpload():
             if allow_image(photo.filename):
                 filename = secure_filename(photo.filename)
                 #the place to store image
-                photo.save(os.path.join('D:/new main folider/Github clones/animewebapp/static/client/img', filename))
+                photo.save(os.path.join('./static/client/img', filename))
     return redirect(url_for('home'))
 
 

@@ -2,21 +2,14 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <<!DOCTYPE html>
-
-    <html>
-      <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <title>home</title>
-      </head>
-      <body>
-        <div class="cont01">
-          <h1>Anime Arc</h1>
+<head>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <title>home</title>
+</head>
+<body>
+  <div class="cont01">
+    <h1>Anime Arc</h1>
           <p>This is a web application that allows you to convert photographs into anime.</p>
-        </div>
-
-    <div class="cont01">
             <form action="/handleUpload" method="post" enctype="multipart/form-data">
             <span>
              Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
