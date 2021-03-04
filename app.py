@@ -4,6 +4,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
+currentImageName = ""
+
 @app.route("/")
 def home():
     return render_template('home.html')
@@ -22,12 +24,11 @@ def allow_image(filename):
     else:
         return False
 
-app.config["CLIENT_IMAGES"] = "./static/client/img"
+app.config['CLIENT_IMAGES'] = './static/client/img'
 
-@app.route("/get-image", methods=['get'])
+@app.route("/get-image", methods=['post'])
 def get_image():
-    return send_from_directory(app.config["CLIENT_IMAGES"], filename='a.jpg', as_attachment=True)
-
+    return send_from_directory(app.config['CLIENT_IMAGES'], filename=currentImageName, as_attachment=True)
 
 @app.route("/handleUpload", methods=['post'])
 def handleFileUpload():
@@ -36,6 +37,8 @@ def handleFileUpload():
         if photo.filename != ' ' :
             if allow_image(photo.filename):
                 filename = secure_filename(photo.filename)
+                global currentImageName
+                currentImageName = photo.filename
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
     return redirect(url_for('home'))

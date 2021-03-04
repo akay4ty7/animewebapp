@@ -21,7 +21,7 @@ def resize(imgPath,savePath):
 
 if __name__ == '__main__':
  # undone image path
- dataPath = 'C:\\Users\LU\Desktop\\RND-s2\Animewebapp-main\\Python'
+ dataPath = 'D://new main folider//test photo sonvert'
  # save image path
- savePath = 'C:\\Users\\LU\\Desktop\\RND-s2\\Animewebapp-main\\Python'
+ savePath = 'D://new main folider//test photo sonvert'
  resize(dataPath,savePath)
