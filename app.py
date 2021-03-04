@@ -6,6 +6,26 @@ app = Flask(__name__)
 
 currentImageName = ""
 
+@app.route('/privacypolicy/')
+def privacypolicy():
+    return render_template('privacypolicy.html')
+
+@app.route('/ack/')
+def ack():
+    return render_template('ack.html')
+
+@app.route('/homeJ/')
+def homeJ():
+    return render_template('homeJ.html')
+
+@app.route('/privacypolicyJ/')
+def privacypolicyJ():
+    return render_template('privacypolicyJ.html')
+
+@app.route('/ackJ/')
+def ackJ():
+    return render_template('ackJ.html')
+
 @app.route("/")
 def home():
     return render_template('home.html')
