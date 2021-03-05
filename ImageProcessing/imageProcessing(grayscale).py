@@ -11,7 +11,7 @@ def resize(imgPath,savePath):
  print('start...')
  for file in files:
      fileType = os.path.splitext(file)
-     if fileType[1] == '.png':
+     if fileType[1] == '.jpg':
         new_png = Image.open(imgPath+'/'+file) #openImage
         #new_png = new_png.resize((1000, 1000),Image.ANTIALIAS) #ResizeImage
         new_png = new_png.convert('L') # convert image to black and white
@@ -21,7 +21,7 @@ def resize(imgPath,savePath):
 
 if __name__ == '__main__':
  # undone image path
- dataPath = 'D://new main folider//test photo sonvert'
+ dataPath = 'D:\\new main folider\\testGrey'
  # save image path
- savePath = 'D://new main folider//test photo sonvert'
+ savePath = 'D:\\new main folider\\testGrey'
  resize(dataPath,savePath)
