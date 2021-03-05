@@ -1,5 +1,7 @@
 import os
 from flask import Flask, render_template, url_for, request, redirect, send_from_directory, abort, send_file, safe_join
+from PIL import Image
+import numpy as np
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -61,8 +63,21 @@ def handleFileUpload():
                 currentImageName = photo.filename
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
+                # undone image path
+                dataPath = 'D:\\new main folider\\Github clones\\animewebapp\\static\\client\\img'
+                # save image path
+                savePath = 'D:\\new main folider\\Github clones\\animewebapp\\static\\client\\img'
+                resize(dataPath,savePath)
     return redirect(url_for('home'))
 
+def resize(imgPath,savePath):
+ files = os.listdir(imgPath)
+ files.sort()
+ for file in files:
+        new_png = Image.open(imgPath+'/'+file) #openImage
+        #new_png = new_png.resize((1000, 1000),Image.ANTIALIAS) #ResizeImage
+        new_png = new_png.convert('L') # convert image to black and white
+        new_png.save(savePath+'/'+file) #saveImage
 
 if __name__ == '__main__':
     app.run(debug=True)
