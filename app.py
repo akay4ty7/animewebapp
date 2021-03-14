@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 currentImageName = ""
+full_filename = ""
 
 @app.route('/privacypolicy/')
 def privacypolicy():
@@ -30,7 +31,7 @@ def ackJ():
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template('home.html', user_image = full_filename)
 #only allow certain image style to be upload
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
 
@@ -77,6 +78,8 @@ def handleFileUpload():
                 #filter2_toCarttonStyle(currentImageName)
                 filter2_toSketchStyle(currentImageName)
                 #filter2******************************************************
+                global full_filename
+                full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
     return redirect(url_for('home'))
 
 def GreyTone(imgPath,savePath,imageName):
