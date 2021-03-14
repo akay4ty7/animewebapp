@@ -58,6 +58,7 @@ def handleFileUpload():
         photo = request.files['photo']
         if photo.filename != ' ' :
             if allow_image(photo.filename):
+                deleteAllFile()
                 filename = secure_filename(photo.filename)
                 global currentImageName
                 currentImageName = photo.filename
@@ -75,11 +76,16 @@ def handleFileUpload():
                 #filter1******************************************************
                 #filter2******************************************************
                 #filter2_toCarttonStyle(currentImageName)
-                filter2_toSketchStyle(currentImageName)
+                #filter2_toSketchStyle(currentImageName)
                 #filter2******************************************************
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
+
+def deleteAllFile():
+    for allFile in os.listdir('./static/client/img'):
+        file_path = os.path.join('./static/client/img', allFile)
+        os.remove((file_path))
 
 def GreyTone(imgPath,savePath,imageName):
     new_png = Image.open(imgPath+'/'+imageName) #openImage
