@@ -5,7 +5,6 @@ import numpy as np
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-
 currentImageName = ""
 full_filename = ""
 
@@ -33,7 +32,9 @@ def ackJ():
 def home():
     return render_template('home.html', user_image = full_filename)
 #only allow certain image style to be upload
+
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
+app.config['CLIENT_IMAGES'] = './static/client/img'
 
 def allow_image(filename):
     #check if the file upload include "." eg: abc.PNG
@@ -46,8 +47,6 @@ def allow_image(filename):
         return True
     else:
         return False
-
-app.config['CLIENT_IMAGES'] = './static/client/img'
 
 @app.route("/get-image", methods=['post'])
 def get_image():
@@ -80,7 +79,7 @@ def handleFileUpload():
                 #filter2******************************************************
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
-    return redirect(url_for('home'))
+                return redirect(url_for('home'))
 
 def GreyTone(imgPath,savePath,imageName):
     new_png = Image.open(imgPath+'/'+imageName) #openImage
@@ -103,48 +102,38 @@ def filter1(filein,picture_name):
 
 # 转换成漫画风格
 def filter2_toCarttonStyle(picturePath):
-
  # 属性设置
  num_down = 2 # 缩减像素采样的数目
  num_bilateral = 7 # 定义双边滤波的数目
-
  # 读取图片
  img_rgb = cv2.imread(os.path.join('./static/client/img',picturePath))
-
  # 用高斯金字塔降低取样
  img_color = img_rgb
  for _ in range(num_down):
      img_color = cv2.pyrDown(img_color)
-
  # 重复使用小的双边滤波代替一个大的滤波
  for _ in range(num_bilateral):
      img_color = cv2.bilateralFilter(img_color, d=9, sigmaColor=9, sigmaSpace=7)
-
  # 升采样图片到原始大小
  for _ in range(num_down):
      img_color = cv2.pyrUp(img_color)
-
  # 转换为灰度并且使其产生中等的模糊
  img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
  img_blur = cv2.medianBlur(img_gray, 7)
-
  # 检测到边缘并且增强其效果
  img_edge = cv2.adaptiveThreshold(img_blur, 255,
      cv2.ADAPTIVE_THRESH_MEAN_C,
      cv2.THRESH_BINARY,
      blockSize=9,
      C=2)
-
  # 算法处理后，照片的尺寸可能会不统一
  # 把照片的尺寸统一化
  height=img_rgb.shape[0]
  width = img_rgb.shape[1]
  img_color=cv2.resize(img_color,(width,height))
-
  # 转换回彩色图像
  img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)
  img_cartoon = cv2.bitwise_and(img_color, img_edge)
-
  # 保存转换后的图片
  cv2.imwrite(os.path.join('./static/client/img', picturePath), img_cartoon)
 
@@ -159,11 +148,8 @@ def filter2_toSketchStyle(picturePath, blur=25, alpha=1.0):
    img = Image.open(os.path.join('./static/client/img', picturePath))
    # 将文件转成灰色
    img1 = img.convert('L')
-
    img2 = img1.copy()
-
    img2 = ImageOps.invert(img2)
-
    # 模糊度
    for i in range(blur):
        img2 = img2.filter(ImageFilter.BLUR)
