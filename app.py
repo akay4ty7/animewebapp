@@ -89,6 +89,10 @@ def make_unique(string):
     ident = uuid4().__str__()[:8]
     return f"{ident}-{string}"
 
+def make_unique(string):
+    ident = uuid4().__str__()[:8]
+    return f"{ident}-{string}"
+
 def deleteAllFile():
     for allFile in os.listdir('./static/client/img'):
         file_path = os.path.join('./static/client/img', allFile)
