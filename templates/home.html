@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
   <link rel="stylesheet" href="../static/css/styles.css">
   <title>home</title>
@@ -15,28 +16,37 @@
   <div class="cont01">
     <h1>Anime Arc</h1>
           <p>This is a web application that allows you to convert photographs into anime.</p>
-            <form action="/handleUpload" method="post" enctype="multipart/form-data">
+          <form action="/handleUpload" method="post" enctype="multipart/form-data">
             <span>
+<<<<<<< HEAD
+              Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
+            </span><br/><br/>
+            <img id="output"><br/>
+            <input class="button" type="submit" value="Upload">
+          </form>
+            <img src="{{ user_image }}" alt="User Image">
+=======
              Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
              </span><br/><br/>
              <img id="output"><br/>
              <img src="{{ user_image }}" alt="User Image"">
             <input class="button" type="submit" value="Upload">
             </form>
+>>>>>>> eaac2c718a33c80d021b2c2cd5c00784e246ae08
             <form action="/get-image" method="post"><br/>
-            <input class="button" type="submit" value="Download">
+              <input class="button" type="submit" value="Download">
             </form>
-        </div>
-      </body>
+          </div>
+        </body>
 
-      <script>
-      var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function() {
-          URL.revokeObjectURL(output.src)
-        }
-      };
-    </script>
+<script>
+var loadFile = function(event) {
+  var output = document.getElementById('output');
+  output.src = URL.createObjectURL(event.target.files[0]);
+  output.onload = function() {
+    URL.revokeObjectURL(output.src)
+  }
+};
+</script>
 
-    </html>
+</html>
