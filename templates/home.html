@@ -13,31 +13,23 @@
   <a href="{{ url_for('ack') }}">Acknowledgements</a>
   <a href="{{ url_for('homeJ') }}">日本語</a>
 </div>
-  <div class="cont01">
-    <h1>Anime Arc</h1>
-          <p>This is a web application that allows you to convert photographs into anime.</p>
-          <form action="/handleUpload" method="post" enctype="multipart/form-data">
-            <span>
-<<<<<<< HEAD
-              Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
-            </span><br/><br/>
-            <img id="output"><br/>
-            <input class="button" type="submit" value="Upload">
-          </form>
-            <img src="{{ user_image }}" alt="User Image">
-=======
-             Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
-             </span><br/><br/>
-             <img id="output"><br/>
-             <img src="{{ user_image }}" alt="User Image"">
-            <input class="button" type="submit" value="Upload">
-            </form>
->>>>>>> eaac2c718a33c80d021b2c2cd5c00784e246ae08
-            <form action="/get-image" method="post"><br/>
-              <input class="button" type="submit" value="Download">
-            </form>
-          </div>
-        </body>
+
+<div class="cont01">
+  <h1>Anime Arc</h1>
+  <p>This is a web application that allows you to convert photographs into anime. Here are some changes that were done in the current branch lol.</p>
+  <form action="/handleUpload" method="post" enctype="multipart/form-data">
+    <span>
+      Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
+    </span><br/><br/>
+    <img id="output"><br/>
+    <input class="button" type="submit" value="Upload">
+  </form>
+  <img src="{{ user_image }}" alt="User Image">
+  <form action="/get-image" method="post"><br/>
+    <input class="button" type="submit" value="Download">
+  </form>
+</div>
+</body>
 
 <script>
 var loadFile = function(event) {
