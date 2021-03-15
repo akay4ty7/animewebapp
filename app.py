@@ -84,6 +84,10 @@ def handleFileUpload():
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
+                
+def make_unique(string):
+    ident = uuid4().__str__()[:8]
+    return f"{ident}-{string}"
 
 def make_unique(string):
     ident = uuid4().__str__()[:8]
