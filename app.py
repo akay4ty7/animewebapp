@@ -1,6 +1,7 @@
 import os, cv2
 from flask import Flask, render_template, url_for, request, redirect, send_from_directory, abort, send_file, safe_join
 from PIL import Image, ImageOps, ImageFilter
+from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
 
@@ -56,12 +57,14 @@ def get_image():
 def handleFileUpload():
     if 'photo' in request.files:
         photo = request.files['photo']
-        if photo.filename != ' ' :
-            if allow_image(photo.filename):
+        global PictureName
+        PictureName = make_unique(photo.filename)
+        if PictureName != ' ' :
+            if allow_image(PictureName):
                 deleteAllFile()
-                filename = secure_filename(photo.filename)
+                filename = secure_filename(PictureName)
                 global currentImageName
-                currentImageName = photo.filename
+                currentImageName = PictureName
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
                 #greyTone**************************************************
@@ -69,7 +72,7 @@ def handleFileUpload():
                 dataPath = './static/client/img'
                 # save image path
                 savePath = './static/client/img'
-                #GreyTone(dataPath,savePath,currentImageName)
+                GreyTone(dataPath,savePath,currentImageName)
                 #greyTone**************************************************
                 #filter1******************************************************
                 #filter1('./static/client/img',currentImageName) # 为图片应用卡通动漫滤镜
@@ -81,6 +84,10 @@ def handleFileUpload():
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
+
+def make_unique(string):
+    ident = uuid4().__str__()[:8]
+    return f"{ident}-{string}"
 
 def deleteAllFile():
     for allFile in os.listdir('./static/client/img'):
