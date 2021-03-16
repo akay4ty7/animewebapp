@@ -26,11 +26,12 @@ def parse_args():
     return parser.parse_args()
 
 #unuse
+"""
 def stats_graph(graph):
     flops = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.float_operation())
     # params = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.trainable_variables_parameter())
     print('FLOPs: {}'.format(flops.total_float_ops))
-
+"""
 def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[256,256]):
     # tf.reset_default_graph()
     result_dir = 'results/'+style_name
@@ -53,10 +54,12 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
             ckpt_name = os.path.basename(ckpt.model_checkpoint_path)  # first line
 
             saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
+            """
             print(" [*] Success to read {}".format(os.path.join(checkpoint_dir, ckpt_name)))
         else:
             print(" [*] Failed to find a checkpoint")
             return
+            """
         # stats_graph(tf.get_default_graph())
 
         begin = time.time()
@@ -74,5 +77,5 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
         print(f'one image test time : {(end-begin)/len(test_files)} s')
 if __name__ == '__main__':
     arg = parse_args()
-    print(arg.checkpoint_dir)
+    #print(arg.checkpoint_dir)
     test(arg.checkpoint_dir, arg.style_name, arg.test_dir, arg.if_adjust_brightness)

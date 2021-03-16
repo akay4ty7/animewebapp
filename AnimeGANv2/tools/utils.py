@@ -73,7 +73,7 @@ def random_crop(img1, img2, crop_H, crop_W):
     crop_2 = crop_image(img2, x0, y0, crop_W, crop_H)
     return crop_1,crop_2
 
-
+"""
 def show_all_variables():
     model_vars = tf.trainable_variables()
     # slim.model_analyzer.analyze_vars(model_vars, print_info=True)
@@ -81,12 +81,13 @@ def show_all_variables():
     slim.model_analyzer.analyze_vars([var for var in tf.trainable_variables() if var.name.startswith('generator')], print_info=True)
     # print('D:')
     # slim.model_analyzer.analyze_vars([var for var in tf.trainable_variables() if var.name.startswith('discriminator')], print_info=True)
-
+"""
 #need
 def check_folder(log_dir):
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
-
+"""
 def str2bool(x):
     return x.lower() in ('true')
+"""
