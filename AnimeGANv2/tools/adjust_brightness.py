@@ -1,12 +1,11 @@
 import numpy as np
 import cv2
-"""
+
 def read_img(image_path):
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     assert len(img.shape)==3
     return img
-"""
 #need
 # Calculates the average brightness in the specified irregular image
 def calculate_average_brightness(img):
