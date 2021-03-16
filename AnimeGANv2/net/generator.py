@@ -59,7 +59,7 @@ def Unsample(inputs, filters, kernel_size=3):
 
     return Conv2DNormLReLU(filters=filters, kernel_size=kernel_size, inputs=inputs)
 
-
+#need
 class G_net(object):
 
 

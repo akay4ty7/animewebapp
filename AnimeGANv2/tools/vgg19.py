@@ -1,4 +1,4 @@
-
+"""
 import tensorflow as tf
 
 import numpy as np
@@ -20,11 +20,11 @@ class Vgg19:
             sys.exit(1)
 
     def build(self, rgb, include_fc=False):
-        """
-        load variable from npy to build the VGG
-        input format: bgr image with shape [batch_size, h, w, 3]
-        scale: (-1, 1)
-        """
+
+        #load variable from npy to build the VGG
+        #input format: bgr image with shape [batch_size, h, w, 3]
+        #scale: (-1, 1)
+
 
         start_time = time.time()
         rgb_scaled = ((rgb + 1) / 2) * 255.0 # [-1, 1] ~ [0, 255]

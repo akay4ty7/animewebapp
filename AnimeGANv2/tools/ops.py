@@ -1,3 +1,4 @@
+"""
 import tensorflow as tf
 import tensorflow.contrib as tf_contrib
 
@@ -307,4 +308,3 @@ def rgb2yuv(rgb):
     # temp = tf.nn.bias_add(temp, rgb2yuv_bias)
     # return temp
     return tf.image.rgb_to_yuv(rgb)
-

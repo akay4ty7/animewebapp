@@ -1,13 +1,13 @@
 import numpy as np
 import cv2
-
+"""
 def read_img(image_path):
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     assert len(img.shape)==3
     return img
-
-
+"""
+#need
 # Calculates the average brightness in the specified irregular image
 def calculate_average_brightness(img):
     # Average value of three color channels
@@ -18,6 +18,7 @@ def calculate_average_brightness(img):
     brightness = 0.299 * R + 0.587 * G + 0.114 * B
     return brightness, B, G, R
 
+#need
 # Adjusting the average brightness of the target image to the average brightness of the source image
 def adjust_brightness_from_src_to_dst(dst, src,path=None,if_show=None, if_info=None):
     brightness1, B1, G1, R1 = calculate_average_brightness(src)

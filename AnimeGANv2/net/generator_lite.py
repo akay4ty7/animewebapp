@@ -1,3 +1,4 @@
+"""
 import tensorflow.contrib as tf_contrib
 import tensorflow as tf
 
@@ -73,38 +74,38 @@ class G_net(object):
 
         with tf.variable_scope('G_MODEL'):
 
-            
+
             x0 = Conv2DNormLReLU(inputs, 32, 7)
-            
+
             x1 = Conv2DNormLReLU(x0, 32, strides=2)
             x1 = Conv2DNormLReLU(x1, 64)
-           
+
             x2 = Conv2DNormLReLU(x1, 64, strides=2)
             x2 = Conv2DNormLReLU(x2, 128)
-            
+
             x3 = Conv2DNormLReLU(x2, 64, strides=2)
             x3 = Conv2DNormLReLU(x3, 128)
-          
-        
+
+
             x3 = self.resBlock(x3,128, 'res1')
             x3 = self.resBlock(x3,128, 'res2')
             x3 = self.resBlock(x3,128, 'res3')
             x3 = self.resBlock(x3,128, 'res4')
 
-            
+
             x4 = Unsample(x3, 128)
             x4 = Conv2DNormLReLU(x4+x2, 64)
-            
+
             x5 = Unsample(x4, 64)
             x5 = Conv2DNormLReLU(x5+x1, 32)
-            
+
             x6 = Unsample(x5, 32)
             x6 = Conv2DNormLReLU(x6+x0, 32, 7)
 
             with tf.variable_scope('out_layer'):
                 out = Conv2D(x6, filters =3, kernel_size=1, strides=1)
                 self.fake = tf.tanh(out)
-                
+
 
     def resBlock(self, x0, filters, name):
         x = Conv2DNormLReLU(x0, filters//4, 1, name=name+'_1')

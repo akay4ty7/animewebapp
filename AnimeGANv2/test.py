@@ -25,10 +25,11 @@ def parse_args():
 
     return parser.parse_args()
 
-def stats_graph(graph):
+#unuse
+"""def stats_graph(graph):
     flops = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.float_operation())
     # params = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.trainable_variables_parameter())
-    print('FLOPs: {}'.format(flops.total_float_ops))
+    print('FLOPs: {}'.format(flops.total_float_ops))"""
 
 def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[256,256]):
     # tf.reset_default_graph()
@@ -39,9 +40,6 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
     test_real = tf.placeholder(tf.float32, [1, None, None, 3], name='test')
 
     with tf.variable_scope("generator", reuse=False):
-        if 'lite' in checkpoint_dir:
-            test_generated = generator_lite.G_net(test_real).fake
-        else:
             test_generated = generator.G_net(test_real).fake
     saver = tf.train.Saver()
 

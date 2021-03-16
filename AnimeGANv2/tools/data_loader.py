@@ -1,3 +1,4 @@
+"""
 import os
 import tensorflow as tf
 import cv2,random
@@ -75,7 +76,7 @@ class ImageGenerator(object):
         # Unform shuffle
         dataset = dataset.shuffle(buffer_size=len(self.paths))
 
-        # Map path to image 
+        # Map path to image
         dataset = dataset.map(lambda img: tf.py_func(
             self.load_image, [img], [tf.float32,tf.float32]),
                               self.num_cpus)

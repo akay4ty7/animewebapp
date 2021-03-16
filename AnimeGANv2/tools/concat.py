@@ -1,3 +1,4 @@
+"""
 # -*- coding: utf-8 -*-
 import os
 import cv2
@@ -53,6 +54,3 @@ if __name__ == '__main__':
             im_AB = np.concatenate([im_A1, img2], 1)
 
             cv2.imwrite(style + str(i) + '.jpg', im_AB)
-
-
-
