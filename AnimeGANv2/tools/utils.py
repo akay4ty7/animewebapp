@@ -4,14 +4,13 @@ from tools.adjust_brightness import adjust_brightness_from_src_to_dst, read_img
 import os,cv2
 import numpy as np
 
-#need
 def load_test_data(image_path, size):
     img = cv2.imread(image_path).astype(np.float32)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = preprocessing(img,size)
     img = np.expand_dims(img, axis=0)
     return img
-#need
+
 def preprocessing(img, size):
     h, w = img.shape[:2]
     if h <= size[0]:
@@ -29,7 +28,6 @@ def preprocessing(img, size):
     img = cv2.resize(img, (w, h))
     return img/127.5 - 1.0
 
-#need
 def save_images(images, image_path, photo_path = None):
     fake = inverse_transform(images.squeeze())
     if photo_path:
@@ -37,7 +35,7 @@ def save_images(images, image_path, photo_path = None):
     else:
         return imsave(fake, image_path)
 
-#need
+
 def inverse_transform(images):
     images = (images + 1.) / 2 * 255
     # The calculation of floating-point numbers is inaccurate,
@@ -46,7 +44,7 @@ def inverse_transform(images):
     images = np.clip(images, 0, 255)
     return images.astype(np.uint8)
 
-#need
+
 def imsave(images, path):
     return cv2.imwrite(path, cv2.cvtColor(images, cv2.COLOR_BGR2RGB))
 
@@ -82,12 +80,11 @@ def show_all_variables():
     # print('D:')
     # slim.model_analyzer.analyze_vars([var for var in tf.trainable_variables() if var.name.startswith('discriminator')], print_info=True)
 """
-#need
+
 def check_folder(log_dir):
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
-"""
+
 def str2bool(x):
     return x.lower() in ('true')
-"""
