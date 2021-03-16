@@ -5,7 +5,7 @@ from tqdm import tqdm
 from glob import glob
 import time
 import numpy as np
-from net import generator
+from net import generator_lite
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def parse_args():
@@ -40,7 +40,7 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
     test_real = tf.placeholder(tf.float32, [1, None, None, 3], name='test')
 
     with tf.variable_scope("generator", reuse=False):
-            test_generated = generator.G_net(test_real).fake
+            test_generated = generator_lite.G_net(test_real).fake
     saver = tf.train.Saver()
 
     gpu_options = tf.GPUOptions(allow_growth=True)
