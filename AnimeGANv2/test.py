@@ -5,7 +5,7 @@ from tqdm import tqdm
 from glob import glob
 import time
 import numpy as np
-from net import generator,generator_lite
+from net import generator
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def parse_args():
