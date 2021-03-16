@@ -61,7 +61,7 @@ def adjust_brightness_from_src_to_dst(dst, src,path=None,if_show=None, if_info=N
 
     return dstf
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 
   #A = read_img('../Brightness_tool/A.png')
   #B = read_img('../Brightness_tool/B.png')
