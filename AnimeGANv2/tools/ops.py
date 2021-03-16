@@ -52,7 +52,6 @@ def conv(x, channels, kernel=4, stride=2, pad=0, pad_type='zero', use_bias=True,
 
         return x
 
-"""
 def deconv(x, channels, kernel=4, stride=2, use_bias=True, sn=False, scope='deconv_0'):
     with tf.variable_scope(scope):
         x_shape = x.get_shape().as_list()

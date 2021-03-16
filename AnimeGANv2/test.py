@@ -26,10 +26,10 @@ def parse_args():
     return parser.parse_args()
 
 #unuse
-"""def stats_graph(graph):
+def stats_graph(graph):
     flops = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.float_operation())
     # params = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.trainable_variables_parameter())
-    print('FLOPs: {}'.format(flops.total_float_ops))"""
+    print('FLOPs: {}'.format(flops.total_float_ops))
 
 def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[256,256]):
     # tf.reset_default_graph()
@@ -41,8 +41,8 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
 
     with tf.variable_scope("generator", reuse=False):
             test_generated = generator_lite.G_net(test_real).fake
-    #?
-    #saver = tf.train.Saver()
+
+    saver = tf.train.Saver()
 
     gpu_options = tf.GPUOptions(allow_growth=True)
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True, gpu_options=gpu_options)) as sess:
@@ -51,8 +51,8 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)  # checkpoint file information
         if ckpt and ckpt.model_checkpoint_path:
             ckpt_name = os.path.basename(ckpt.model_checkpoint_path)  # first line
-            #?
-            #saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
+
+            saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
             print(" [*] Success to read {}".format(os.path.join(checkpoint_dir, ckpt_name)))
         else:
             print(" [*] Failed to find a checkpoint")

@@ -63,8 +63,8 @@ def adjust_brightness_from_src_to_dst(dst, src,path=None,if_show=None, if_info=N
 
 if __name__ == '__main__':
 
-  #A = read_img('../Brightness_tool/A.png')
-  #B = read_img('../Brightness_tool/B.png')
+  A = read_img('../Brightness_tool/A.png')
+  B = read_img('../Brightness_tool/B.png')
 
-  # adjusted = adjust_brightness_from_src_to_dst(A, B, path='resA.png')
-  #adjusted = adjust_brightness_from_src_to_dst(A, B)
+  #adjusted = adjust_brightness_from_src_to_dst(A, B, path='resA.png')
+  adjusted = adjust_brightness_from_src_to_dst(A, B)

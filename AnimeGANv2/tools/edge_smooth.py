@@ -1,4 +1,3 @@
-"""
 # The edge_smooth.py is from taki0112/CartoonGAN-Tensorflow https://github.com/taki0112/CartoonGAN-Tensorflow#2-do-edge_smooth
 from tools.utils import check_folder
 import numpy as np

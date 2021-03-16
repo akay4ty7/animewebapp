@@ -49,7 +49,7 @@ def inverse_transform(images):
 #need
 def imsave(images, path):
     return cv2.imwrite(path, cv2.cvtColor(images, cv2.COLOR_BGR2RGB))
-"""
+
 crop_image = lambda img, x0, y0, w, h: img[y0:y0+h, x0:x0+w]
 
 def random_crop(img1, img2, crop_H, crop_W):
@@ -81,13 +81,12 @@ def show_all_variables():
     slim.model_analyzer.analyze_vars([var for var in tf.trainable_variables() if var.name.startswith('generator')], print_info=True)
     # print('D:')
     # slim.model_analyzer.analyze_vars([var for var in tf.trainable_variables() if var.name.startswith('discriminator')], print_info=True)
-"""
+
 #need
 def check_folder(log_dir):
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
-"""
+
 def str2bool(x):
     return x.lower() in ('true')
-"""
