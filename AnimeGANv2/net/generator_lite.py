@@ -1,6 +1,6 @@
 import tensorflow.contrib as tf_contrib
 import tensorflow as tf
-
+#need
 def layer_norm(x, scope='layer_norm') :
     return tf_contrib.layers.layer_norm(x,
                                         center=True, scale=True,
@@ -11,10 +11,10 @@ def instance_norm(x, scope='instance_norm'):
                                            epsilon=1e-05,
                                            center=True, scale=True,
                                            scope=scope)
-
+#need
 def lrelu(x, alpha=0.2):
     return tf.nn.leaky_relu(x, alpha)
-
+#need
 def Conv2D(inputs, filters, kernel_size=3, strides=1, padding='VALID', Use_bias = None):
     if kernel_size == 3 and strides == 1:
         inputs = tf.pad(inputs, [[0, 0], [1, 1], [1, 1], [0, 0]], mode="REFLECT")
@@ -33,12 +33,13 @@ def Conv2D(inputs, filters, kernel_size=3, strides=1, padding='VALID', Use_bias 
         activation_fn=None,
         padding=padding)
 
-
+#need
 def Conv2DNormLReLU(inputs, filters, kernel_size=3, strides=1, padding='VALID', Use_bias = None, name=None):
     x = Conv2D(inputs, filters, kernel_size, strides,padding=padding, Use_bias = Use_bias)
     x = layer_norm(x, scope=name)
     return lrelu(x)
 
+#need
 def dwise_conv(input, k_h=3, k_w=3, channel_multiplier=1, strides=[1, 1, 1, 1],
                    padding='VALID', name='dwise_conv', bias = True):
     input = tf.pad(input, [[0, 0], [1, 1], [1, 1], [0, 0]], mode="REFLECT")
@@ -51,7 +52,7 @@ def dwise_conv(input, k_h=3, k_w=3, channel_multiplier=1, strides=[1, 1, 1, 1],
             conv = tf.nn.bias_add(conv, biases)
         return conv
 
-
+#need
 def Unsample(inputs, filters, kernel_size=3):
     '''
         An alternative to transposed convolution where we first resize, then convolve.
@@ -65,10 +66,10 @@ def Unsample(inputs, filters, kernel_size=3):
 
     return Conv2DNormLReLU(filters=filters, kernel_size=kernel_size, inputs=inputs)
 
-
+#need
 class G_net(object):
 
-
+#need
     def __init__(self, inputs):
 
         with tf.variable_scope('G_MODEL'):
@@ -105,7 +106,7 @@ class G_net(object):
                 out = Conv2D(x6, filters =3, kernel_size=1, strides=1)
                 self.fake = tf.tanh(out)
 
-
+#need
     def resBlock(self, x0, filters, name):
         x = Conv2DNormLReLU(x0, filters//4, 1, name=name+'_1')
         x = Conv2DNormLReLU(x, filters//4, 3, name=name+'_2')

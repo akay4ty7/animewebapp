@@ -52,6 +52,7 @@ def conv(x, channels, kernel=4, stride=2, pad=0, pad_type='zero', use_bias=True,
 
         return x
 
+"""
 def deconv(x, channels, kernel=4, stride=2, use_bias=True, sn=False, scope='deconv_0'):
     with tf.variable_scope(scope):
         x_shape = x.get_shape().as_list()
@@ -146,8 +147,8 @@ def spectral_norm(w, iteration=1):
     v_hat = None
     for i in range(iteration):
         """
-        power iteration
-        Usually iteration = 1 will be enough
+        #power iteration
+        #Usually iteration = 1 will be enough
         """
         v_ = tf.matmul(u_hat, tf.transpose(w))
         v_hat = l2_norm(v_)
@@ -285,8 +286,8 @@ def color_loss(con, fake):
 
 def total_variation_loss(inputs):
     """
-    A smooth loss in fact. Like the smooth prior in MRF.
-    V(y) = || y_{n+1} - y_n ||_2
+    #A smooth loss in fact. Like the smooth prior in MRF.
+    #V(y) = || y_{n+1} - y_n ||_2
     """
     dh = inputs[:, :-1, ...] - inputs[:, 1:, ...]
     dw = inputs[:, :, :-1, ...] - inputs[:, :, 1:, ...]
@@ -296,7 +297,7 @@ def total_variation_loss(inputs):
 
 def rgb2yuv(rgb):
     """
-    Convert RGB image into YUV https://en.wikipedia.org/wiki/YUV
+    #Convert RGB image into YUV https://en.wikipedia.org/wiki/YUV
     """
     rgb = (rgb + 1.0)/2.0
     # rgb2yuv_filter = tf.constant([[[[0.299, -0.169, 0.499],
