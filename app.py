@@ -4,7 +4,7 @@ from PIL import Image, ImageOps, ImageFilter
 from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
-from imageFiltering.test import runTest
+from test import runTest
 
 app = Flask(__name__)
 currentImageName = ""
