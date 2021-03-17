@@ -4,6 +4,7 @@ from PIL import Image, ImageOps, ImageFilter
 from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
+from imageFiltering.test import runTest
 
 app = Flask(__name__)
 currentImageName = ""
@@ -67,27 +68,10 @@ def handleFileUpload():
                 currentImageName = PictureName
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
-                #greyTone**************************************************
-                # undone image path
-                dataPath = './static/client/img'
-                # save image path
-                savePath = './static/client/img'
-                GreyTone(dataPath,savePath,currentImageName)
-                #greyTone**************************************************
-                #filter1******************************************************
-                #filter1('./static/client/img',currentImageName) # 为图片应用卡通动漫滤镜
-                #filter1******************************************************
-                #filter2******************************************************
-                #filter2_toCarttonStyle(currentImageName)
-                #filter2_toSketchStyle(currentImageName)
-                #filter2******************************************************
+                runTest()
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
-                
-def make_unique(string):
-    ident = uuid4().__str__()[:8]
-    return f"{ident}-{string}"
 
 def make_unique(string):
     ident = uuid4().__str__()[:8]
