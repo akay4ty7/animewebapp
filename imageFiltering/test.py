@@ -68,6 +68,5 @@ def test(img_size=[256,256]):
         print(f'one image test time : {(end-begin)/len(test_files)} s')
 
 def runTest():
-        #arg = parse_args()
-        test()
-        return
+    test()
+    return
