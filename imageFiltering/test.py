@@ -14,9 +14,9 @@ def parse_args():
 
     parser.add_argument('--checkpoint_dir', type=str, default='checkpoint/'+'generator_Hayao_weight',
                         help='Directory name to save the checkpoints')
-    parser.add_argument('--test_dir', type=str, default='static/client/img',
+    parser.add_argument('--test_dir', type=str, default='../static/client/img',
                         help='Directory name of test photos')
-    parser.add_argument('--style_name', type=str, default='static/client/img',
+    parser.add_argument('--style_name', type=str, default='../static/client/img',
                         help='what style you want to get')
     parser.add_argument('--if_adjust_brightness', type=bool, default=True,
                         help='adjust brightness by the real photo')
@@ -33,8 +33,8 @@ def stats_graph(graph):
 def test(img_size=[256,256]):
     checkpoint_dir = 'checkpoint/generator_Hayao_weight'
     # tf.reset_default_graph()
-    result_dir = 'static/client/img'
-    test_dir = 'static/client/img'
+    result_dir = '../static/client/img'
+    test_dir = '../static/client/img'
     check_folder(result_dir)
     test_files = glob('{}/*.*'.format(test_dir))
 
@@ -67,6 +67,7 @@ def test(img_size=[256,256]):
         print(f'test-time: {end-begin} s')
         print(f'one image test time : {(end-begin)/len(test_files)} s')
 
-    def runTest():
-            #arg = parse_args()
-            test()
+def runTest():
+        #arg = parse_args()
+        test()
+        return
