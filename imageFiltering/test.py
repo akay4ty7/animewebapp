@@ -12,11 +12,11 @@ def parse_args():
     desc = "AnimeGANv2"
     parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('--checkpoint_dir', type=str, default='checkpoint/'+'generator_Shinkai_weight',
+    parser.add_argument('--checkpoint_dir', type=str, default='checkpoint/'+'generator_Hayao_weight',
                         help='Directory name to save the checkpoints')
-    parser.add_argument('--test_dir', type=str, default='dataset/test/t',
+    parser.add_argument('--test_dir', type=str, default='../static/client/img',
                         help='Directory name of test photos')
-    parser.add_argument('--style_name', type=str, default='Shinkai/t',
+    parser.add_argument('--style_name', type=str, default='../static/client/img',
                         help='what style you want to get')
     parser.add_argument('--if_adjust_brightness', type=bool, default=True,
                         help='adjust brightness by the real photo')
@@ -30,9 +30,11 @@ def stats_graph(graph):
     # params = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.trainable_variables_parameter())
     print('FLOPs: {}'.format(flops.total_float_ops))
 
-def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[256,256]):
+def test(img_size=[256,256]):
+    checkpoint_dir = 'checkpoint/generator_Hayao_weight'
     # tf.reset_default_graph()
-    result_dir = 'results/'+style_name
+    result_dir = '../static/client/img'
+    test_dir = '../static/client/img'
     check_folder(result_dir)
     test_files = glob('{}/*.*'.format(test_dir))
 
@@ -58,13 +60,13 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
             sample_image = np.asarray(load_test_data(sample_file, img_size))
             image_path = os.path.join(result_dir,'{0}'.format(os.path.basename(sample_file)))
             fake_img = sess.run(test_generated, feed_dict = {test_real : sample_image})
-            if if_adjust_brightness:
-                save_images(fake_img, image_path, sample_file)
-            else:
-                save_images(fake_img, image_path, None)
+            #adjustBrightness
+            save_images(fake_img, image_path, sample_file)
+            #save_images(fake_img, image_path, None)
         end = time.time()
         print(f'test-time: {end-begin} s')
         print(f'one image test time : {(end-begin)/len(test_files)} s')
-if __name__ == '__main__':
-    arg = parse_args()
-    test(arg.checkpoint_dir, arg.style_name, arg.test_dir, arg.if_adjust_brightness)
+
+    def runTest():
+            #arg = parse_args()
+            test()
