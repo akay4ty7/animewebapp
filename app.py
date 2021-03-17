@@ -4,7 +4,7 @@ from PIL import Image, ImageOps, ImageFilter
 from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
-from imageFiltering.test import test
+from imageFiltering.test import runTest
 
 app = Flask(__name__)
 currentImageName = ""
@@ -68,7 +68,7 @@ def handleFileUpload():
                 currentImageName = PictureName
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
-                test()
+                runTest()
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
