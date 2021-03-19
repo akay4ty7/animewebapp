@@ -3,6 +3,7 @@ import argparse
 import cv2
 import numpy as np
 import re
+import os
 
 from detectron2 import model_zoo
 from detectron2.config import get_cfg, CfgNode
@@ -41,7 +42,7 @@ def _get_parsed_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def det2run(filename):
     args: argparse.Namespace = _get_parsed_args()
 
     cfg: CfgNode = get_cfg()
@@ -50,19 +51,14 @@ if __name__ == "__main__":
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(args.base_model)
     predictor: DefaultPredictor = DefaultPredictor(cfg)
 
-    image_file: str
-    for image_file in args.images:
-        img: np.ndarray = cv2.imread(image_file)
+    directory = './static/client/img' # Directory for taking and putting the image
+    img: np.ndarray = cv2.imread(os.path.join(directory, filename))
 
-        output: Instances = predictor(img)["instances"]
-        v = Visualizer(img[:, :, ::-1],
-                       MetadataCatalog.get(cfg.DATASETS.TRAIN[0]),
-                       scale=1.0)
-        result: VisImage = v.draw_instance_predictions(output.to("cpu"))
-        result_image: np.ndarray = result.get_image()[:, :, ::-1]
+    output: Instances = predictor(img)["instances"]
+    v = Visualizer(img[:, :, ::-1],
+                   MetadataCatalog.get(cfg.DATASETS.TRAIN[0]),
+                   scale=1.0)
+    result: VisImage = v.draw_instance_predictions(output.to("cpu"))
+    result_image: np.ndarray = result.get_image()[:, :, ::-1]
 
-        # get file name without extension, -1 to remove "." at the end
-        out_file_name: str = re.search(r"(.*)\.", image_file).group(0)[:-1]
-        out_file_name += "_processed.png"
-
-        cv2.imwrite(out_file_name, result_image)
+    cv2.imwrite(os.path.join(directory, filename), result_image)

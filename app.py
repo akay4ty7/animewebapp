@@ -5,6 +5,7 @@ from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
 from test import runTest
+from testDet2 import det2run
 
 app = Flask(__name__)
 currentImageName = ""
@@ -68,6 +69,7 @@ def handleFileUpload():
                 currentImageName = PictureName
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
+                det2run(filename)
                 runTest()
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
@@ -89,69 +91,69 @@ def GreyTone(imgPath,savePath,imageName):
     new_png.save(savePath+'/'+imageName) #saveImage
 
 def filter1(filein,picture_name):
-    imgI_filename = os.path.join(filein,picture_name) # 源文件路径
-    imgO_filename = os.path.join('./static/client/img', picture_name) # 目标文件路径
-    img_rgb = cv2.imread(imgI_filename) # 读取图片
-    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY) # 转换为灰度
-    img_blur = cv2.medianBlur(img_gray, 5) # 增加模糊效果。值越大越模糊（取奇数）
-    # 检测到边缘并且增强其效果
+    imgI_filename = os.path.join(filein,picture_name) # æºæ–‡ä»¶è·¯å¾„
+    imgO_filename = os.path.join('./static/client/img', picture_name) # ç›®æ ‡æ–‡ä»¶è·¯å¾„
+    img_rgb = cv2.imread(imgI_filename) # è¯»å–å›¾ç‰‡
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY) # è½¬æ¢ä¸ºç°åº¦
+    img_blur = cv2.medianBlur(img_gray, 5) # å¢žåŠ æ¨¡ç³Šæ•ˆæžœã€‚å€¼è¶Šå¤§è¶Šæ¨¡ç³Šï¼ˆå–å¥‡æ•°ï¼‰
+    # æ£€æµ‹åˆ°è¾¹ç¼˜å¹¶ä¸”å¢žå¼ºå…¶æ•ˆæžœ
     img_edge = cv2.adaptiveThreshold(img_blur, 128,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,blockSize=9,C=8)
-    img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)  # 彩色图像转为灰度图像
-    img_cartoon = cv2.bitwise_and(img_rgb, img_edge)  # 灰度图像转为彩色图像
-    res = np.uint8(np.clip((2.0 * img_cartoon + 16), 0, 255))  # 调整亮度和对比度
-    cv2.imwrite(imgO_filename, res)  # 保存转换后的图片
+    img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)  # å½©è‰²å›¾åƒè½¬ä¸ºç°åº¦å›¾åƒ
+    img_cartoon = cv2.bitwise_and(img_rgb, img_edge)  # ç°åº¦å›¾åƒè½¬ä¸ºå½©è‰²å›¾åƒ
+    res = np.uint8(np.clip((2.0 * img_cartoon + 16), 0, 255))  # è°ƒæ•´äº®åº¦å’Œå¯¹æ¯”åº¦
+    cv2.imwrite(imgO_filename, res)  # ä¿å­˜è½¬æ¢åŽçš„å›¾ç‰‡
 
-# 转换成漫画风格
+# è½¬æ¢æˆæ¼«ç”»é£Žæ ¼
 def filter2_toCarttonStyle(picturePath):
- # 属性设置
- num_down = 2 # 缩减像素采样的数目
- num_bilateral = 7 # 定义双边滤波的数目
- # 读取图片
+ # å±žæ€§è®¾ç½®
+ num_down = 2 # ç¼©å‡åƒç´ é‡‡æ ·çš„æ•°ç›®
+ num_bilateral = 7 # å®šä¹‰åŒè¾¹æ»¤æ³¢çš„æ•°ç›®
+ # è¯»å–å›¾ç‰‡
  img_rgb = cv2.imread(os.path.join('./static/client/img',picturePath))
- # 用高斯金字塔降低取样
+ # ç”¨é«˜æ–¯é‡‘å­—å¡”é™ä½Žå–æ ·
  img_color = img_rgb
  for _ in range(num_down):
      img_color = cv2.pyrDown(img_color)
- # 重复使用小的双边滤波代替一个大的滤波
+ # é‡å¤ä½¿ç”¨å°çš„åŒè¾¹æ»¤æ³¢ä»£æ›¿ä¸€ä¸ªå¤§çš„æ»¤æ³¢
  for _ in range(num_bilateral):
      img_color = cv2.bilateralFilter(img_color, d=9, sigmaColor=9, sigmaSpace=7)
- # 升采样图片到原始大小
+ # å‡é‡‡æ ·å›¾ç‰‡åˆ°åŽŸå§‹å¤§å°
  for _ in range(num_down):
      img_color = cv2.pyrUp(img_color)
- # 转换为灰度并且使其产生中等的模糊
+ # è½¬æ¢ä¸ºç°åº¦å¹¶ä¸”ä½¿å…¶äº§ç”Ÿä¸­ç­‰çš„æ¨¡ç³Š
  img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
  img_blur = cv2.medianBlur(img_gray, 7)
- # 检测到边缘并且增强其效果
+ # æ£€æµ‹åˆ°è¾¹ç¼˜å¹¶ä¸”å¢žå¼ºå…¶æ•ˆæžœ
  img_edge = cv2.adaptiveThreshold(img_blur, 255,
      cv2.ADAPTIVE_THRESH_MEAN_C,
      cv2.THRESH_BINARY,
      blockSize=9,
      C=2)
- # 算法处理后，照片的尺寸可能会不统一
- # 把照片的尺寸统一化
+ # ç®—æ³•å¤„ç†åŽï¼Œç…§ç‰‡çš„å°ºå¯¸å¯èƒ½ä¼šä¸ç»Ÿä¸€
+ # æŠŠç…§ç‰‡çš„å°ºå¯¸ç»Ÿä¸€åŒ–
  height=img_rgb.shape[0]
  width = img_rgb.shape[1]
  img_color=cv2.resize(img_color,(width,height))
- # 转换回彩色图像
+ # è½¬æ¢å›žå½©è‰²å›¾åƒ
  img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)
  img_cartoon = cv2.bitwise_and(img_color, img_edge)
- # 保存转换后的图片
+ # ä¿å­˜è½¬æ¢åŽçš„å›¾ç‰‡
  cv2.imwrite(os.path.join('./static/client/img', picturePath), img_cartoon)
 
- # 透明度转换 素描转换的一部分
+ # é€æ˜Žåº¦è½¬æ¢ ç´ æè½¬æ¢çš„ä¸€éƒ¨åˆ†
 def filter2_dodge(a, b, alpha):
-  # alpha为图片透明度
+  # alphaä¸ºå›¾ç‰‡é€æ˜Žåº¦
   return min(int(a * 255 / (256 - b * alpha)), 255)
 
-  # 图片转换为素描
+  # å›¾ç‰‡è½¬æ¢ä¸ºç´ æ
 def filter2_toSketchStyle(picturePath, blur=25, alpha=1.0):
-   # 转化成ima对象
+   # è½¬åŒ–æˆimaå¯¹è±¡
    img = Image.open(os.path.join('./static/client/img', picturePath))
-   # 将文件转成灰色
+   # å°†æ–‡ä»¶è½¬æˆç°è‰²
    img1 = img.convert('L')
    img2 = img1.copy()
    img2 = ImageOps.invert(img2)
-   # 模糊度
+   # æ¨¡ç³Šåº¦
    for i in range(blur):
        img2 = img2.filter(ImageFilter.BLUR)
    width, height = img1.size
@@ -161,7 +163,7 @@ def filter2_toSketchStyle(picturePath, blur=25, alpha=1.0):
            b = img2.getpixel((x, y))
            img1.putpixel((x, y), filter2_dodge(a, b, alpha))
 
-   # 保存转换后文件
+   # ä¿å­˜è½¬æ¢åŽæ–‡ä»¶
    img1.save(os.path.join('./static/client/img', picturePath))
 
 if __name__ == '__main__':
