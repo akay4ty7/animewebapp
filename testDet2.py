@@ -52,13 +52,13 @@ def det2run(filename):
     predictor: DefaultPredictor = DefaultPredictor(cfg)
 
     directory = './static/client/img' # Directory for taking and putting the image
-    img: np.ndarray = cv2.imread(os.path.join(directory, filename))
+    img: np.ndarray = cv2.imread(os.path.join(directory, filename)) # Take Image from Directory
 
-    output: Instances = predictor(img)["instances"]
+    output: Instances = predictor(img)["instances"] # Make Neural Network and instance segmentation
     v = Visualizer(img[:, :, ::-1],
                    MetadataCatalog.get(cfg.DATASETS.TRAIN[0]),
-                   scale=1.0)
-    result: VisImage = v.draw_instance_predictions(output.to("cpu"))
+                   scale=1.0) # Drawing Results from Detectron2 Neural Networks
+    result: VisImage = v.draw_instance_predictions(output.to("cpu")) #pass the result of instance segmentation
     result_image: np.ndarray = result.get_image()[:, :, ::-1]
 
     cv2.imwrite(os.path.join(directory, filename), result_image)
