@@ -67,6 +67,7 @@ def handleFileUpload():
         PictureName = make_unique(photo.filename)
         if PictureName != ' ':
             if allow_image(PictureName):
+                PictureName = pngtojpg(PictureName)
                 deleteAllFile()
                 filename = secure_filename(PictureName)
                 global currentImageName
@@ -110,13 +111,8 @@ def textinput():
     imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
     extractImage.save(os.path.join('./static/client/img', currentImageName))
 
-def pngtojpg():
-
-    currentImageName, ext = os.path.splitext(PNG)
-    os.rename(renamee, pre + new_extension)
-    Image.open("static/client/img/" + currentImageName)
-
-
+def pngtojpg(originalImageName):
+    return root_ext = originalImageName.rsplit(".", 1)[0]+".jpg"
 
 if __name__ == '__main__':
     app.run(debug=True)
