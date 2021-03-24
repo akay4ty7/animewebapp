@@ -23,7 +23,7 @@ def parse_args():
 
     """checking arguments"""
 
-    return parser.parse_args()
+    return parser.parse_known_args()
 
 def stats_graph(graph):
     flops = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.float_operation())
