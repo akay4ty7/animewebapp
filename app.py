@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from test import runTest
 from testDet2 import det2run
 from run_inference import mainfunction
+from mainremoval import main
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -72,24 +73,13 @@ def handleFileUpload():
                 currentImageName = PictureName
                 #the place to store image
                 photo.save(os.path.join('./static/client/img', filename))
+
+                global text
                 text = mainfunction(currentImageName)
-                det2run(filename)
+                main(mode=2)
+                #det2run(filename)
                 runTest()
-                extractImage = Image.open("static/client/img/" + currentImageName)
-                imagedraw = ImageDraw.Draw(extractImage)
-                fontsize = 1
-
-                img_fraction = 0.50
-                title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
-                while title_font.getsize(text)[0] < img_fraction * extractImage.size[0]:
-                    # iterate until the text size is just larger than the criteria
-                    fontsize += 1
-                    title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-                fontsize -= 1
-                title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-
-                imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
-                extractImage.save(os.path.join('./static/client/img', currentImageName))
+                textinput()
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
                 return redirect(url_for('home'))
@@ -102,6 +92,31 @@ def deleteAllFile():
     for allFile in os.listdir('./static/client/img'):
         file_path = os.path.join('./static/client/img', allFile)
         os.remove((file_path))
+
+def textinput():
+    extractImage = Image.open("static/client/img/" + currentImageName)
+    imagedraw = ImageDraw.Draw(extractImage)
+    fontsize = 1
+
+    img_fraction = 0.50
+    title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
+
+    while title_font.getsize(text)[0] < img_fraction * extractImage.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    fontsize -= 1
+    title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
+    extractImage.save(os.path.join('./static/client/img', currentImageName))
+
+def pngtojpg():
+
+    currentImageName, ext = os.path.splitext(PNG)
+    os.rename(renamee, pre + new_extension)
+    Image.open("static/client/img/" + currentImageName)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
