@@ -7,11 +7,12 @@ from werkzeug.utils import secure_filename
 from test import runTest
 from testDet2 import det2run
 from run_inference import mainfunction
+from mainremoval import main
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 app = Flask(__name__)
-currentImageName = ""
+global fileName
 full_filename = ""
 
 @app.route('/privacypolicy/')
@@ -36,7 +37,7 @@ def ackJ():
 
 @app.route("/")
 def home():
-    return render_template('home.html', user_image = full_filename)
+    return render_template('home.html', user_image=full_filename)
 #only allow certain image style to be upload
 
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
@@ -46,7 +47,6 @@ def allow_image(filename):
     #check if the file upload include "." eg: abc.PNG
     if not "." in filename:
         return False
-
     ext = filename.rsplit(".", 1)[1]
 
     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
@@ -56,42 +56,38 @@ def allow_image(filename):
 
 @app.route("/get-image", methods=['post'])
 def get_image():
-    return send_from_directory(app.config['CLIENT_IMAGES'], filename=currentImageName, as_attachment=True)
+    return send_from_directory(app.config['CLIENT_IMAGES'], filename=changeName, as_attachment=True)
 
 @app.route("/handleUpload", methods=['post'])
 def handleFileUpload():
     if 'photo' in request.files:
         photo = request.files['photo']
-        global PictureName
-        PictureName = make_unique(photo.filename)
-        if PictureName != ' ':
-            if allow_image(PictureName):
+        fileName = "img.jpg"
+        global changeName
+        changeName = make_unique(fileName)
+        if fileName != ' ':
+            if allow_image(fileName):
+                pngtojpg(fileName)
                 deleteAllFile()
-                filename = secure_filename(PictureName)
-                global currentImageName
-                currentImageName = PictureName
+                fileName = secure_filename(fileName)
                 #the place to store image
-                photo.save(os.path.join('./static/client/img', filename))
-                text = mainfunction(currentImageName)
-                det2run(filename)
+                print(fileName)
+                photo.save(os.path.join('./static/client/img', fileName))
+                old = os.path.join('static/client/img/', fileName)
+                new = os.path.join('static/client/img/', changeName)
+                os.rename(old, new)
+                global originRatio
+                originRatio = imagesize()
+                global text
+                text = mainfunction(changeName)
+                global squareImage
+                squareImage = main(mode=2)
+                imageResize()
+                #det2run(filename)
                 runTest()
-                extractImage = Image.open("static/client/img/" + currentImageName)
-                imagedraw = ImageDraw.Draw(extractImage)
-                fontsize = 1
-
-                img_fraction = 0.50
-                title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
-                while title_font.getsize(text)[0] < img_fraction * extractImage.size[0]:
-                    # iterate until the text size is just larger than the criteria
-                    fontsize += 1
-                    title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-                fontsize -= 1
-                title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-
-                imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
-                extractImage.save(os.path.join('./static/client/img', currentImageName))
+                #textinput(changeName)
                 global full_filename
-                full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
+                full_filename = os.path.join(app.config['CLIENT_IMAGES'], changeName)
                 return redirect(url_for('home'))
 
 def make_unique(string):
@@ -102,6 +98,52 @@ def deleteAllFile():
     for allFile in os.listdir('./static/client/img'):
         file_path = os.path.join('./static/client/img', allFile)
         os.remove((file_path))
+
+def pngtojpg(originalImageName):
+    """
+
+    originalImageName.load()  # required for png.split()
+    newRGB = Image.new("RGB", originalImageName.size, (255, 255, 255))
+    newRGB.paste(originalImageName, mask=originalImageName.split()[3])  # 3 is the alpha channel
+    newRGB.save('foo.jpg', 'JPEG', quality=100)
+
+    """
+    print(originalImageName)
+    root_ext = originalImageName.rsplit(".", 1)[0] + ".jpg"
+    print(root_ext)
+    return root_ext
+
+def imagesize():
+    fileNameSize = Image.open("static/client/img/" + changeName)
+    return fileNameSize
+
+def imageResize():
+    squareImage = Image.open("static/client/img/" + changeName)
+    print(squareImage.size)
+    print(originRatio.size)
+    size = originRatio.size
+    print(size)
+    squareImage = squareImage.resize(size)
+    print(squareImage.size)
+    basewidth = 1250
+    wpercent = (basewidth / float(squareImage.size[0]))
+    hsize = int((float(squareImage.size[1]) * float(wpercent)))
+    squareImage = squareImage.resize((basewidth, hsize), Image.ANTIALIAS)
+
+    imagedraw = ImageDraw.Draw(squareImage)
+    fontsize = 1
+    img_fraction = 0.50
+    title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
+
+    while title_font.getsize(text)[0] < img_fraction * squareImage.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    fontsize -= 1
+    title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
+
+    squareImage.save(os.path.join('static/client/img/', changeName))
 
 if __name__ == '__main__':
     app.run(debug=True)

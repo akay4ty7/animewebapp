@@ -120,11 +120,12 @@ def mainfunction(currentimagename):
         translator = Translator()
         result = translator.translate(sentence, src='en', dest='ja')
         #print("  %d) %s (p=%f)" % (i, result, math.exp(caption.logprob)))
+        global displayCaption
         if i==0:
             displayCaption = result.text
             print(displayCaption)
             return displayCaption
-    return displayCaption
+        return displayCaption
 
 if __name__ == "__main__":
   tf.app.run()
