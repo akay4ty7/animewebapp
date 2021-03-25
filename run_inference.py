@@ -28,8 +28,8 @@ import configuration
 import inference_wrapper
 from inference_utils import caption_generator
 from inference_utils import vocabulary
-
-FLAGS = tf.flags.FLAGS
+from googletrans import Translator
+"""FLAGS = tf.flags.FLAGS
 
 tf.flags.DEFINE_string("checkpoint_path", "",
                        "Model checkpoint file or directory containing a "
@@ -37,25 +37,27 @@ tf.flags.DEFINE_string("checkpoint_path", "",
 tf.flags.DEFINE_string("vocab_file", "", "Text file containing the vocabulary.")
 tf.flags.DEFINE_string("input_files", "",
                        "File pattern or comma-separated list of file patterns "
-                       "of image files.")
+                       "of image files.")"""
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
-
+checkpoint_path = "data/model/Hugh/train/newmodel.ckpt-2000000"
+vocab_file = "data/Hugh/word_counts.txt"
+input_files = "static/client/img/"
 
 
 def rename_model_ckpt():
 
     BASE_DIR = '/Users/wlku/Documents/Developing/TensorFlow/Im2txt/'
-
+    
     vars_to_rename = {
     "lstm/BasicLSTMCell/Linear/Matrix": "lstm/basic_lstm_cell/kernel",
     "lstm/BasicLSTMCell/Linear/Bias": "lstm/basic_lstm_cell/bias",
     }
-
+    
     new_checkpoint_vars = {}
-
-    reader = tf.train.NewCheckpointReader(FLAGS.checkpoint_path)
+    
+    reader = tf.train.NewCheckpointReader(checkpoint_path)
     for old_name in reader.get_variable_to_shape_map():
       if old_name in vars_to_rename:
         new_name = vars_to_rename[old_name]
@@ -72,11 +74,10 @@ def rename_model_ckpt():
 
     with tf.Session() as sess:
       sess.run(init)
-      saver.save(sess, os.path.join(BASE_DIR, "model/Hugh/train/newmodel.ckpt-2000000"))
+      saver.save(sess, os.path.join(BASE_DIR, "data/model/Hugh/train/newmodel.ckpt-2000000"))
     print("checkpoint file rename successful... ")
 
-def main(_):
-
+def mainfunction(currentimagename):
   # Change tensor name
   #rename_model_ckpt()
 
@@ -85,17 +86,18 @@ def main(_):
   with g.as_default():
     model = inference_wrapper.InferenceWrapper()
     restore_fn = model.build_graph_from_config(configuration.ModelConfig(),
-                                               FLAGS.checkpoint_path)
+                                               checkpoint_path)
   g.finalize()
 
   # Create the vocabulary.
-  vocab = vocabulary.Vocabulary(FLAGS.vocab_file)
+  vocab = vocabulary.Vocabulary(vocab_file)
 
+  imageName = input_files + currentimagename
   filenames = []
-  for file_pattern in input_files.split(","):
+  for file_pattern in imageName.split(","):
     filenames.extend(tf.gfile.Glob(file_pattern))
   tf.logging.info("Running caption generation on %d files matching %s",
-                  len(filenames), input_files)
+                  len(filenames), imageName)
 
   with tf.Session(graph=g) as sess:
     # Load the model from checkpoint.
@@ -115,8 +117,15 @@ def main(_):
         # Ignore begin and end words.
         sentence = [vocab.id_to_word(w) for w in caption.sentence[1:-1]]
         sentence = " ".join(sentence)
-        print("  %d) %s (p=%f)" % (i, sentence, math.exp(caption.logprob)))
-
+        translator = Translator()
+        result = translator.translate(sentence, src='en', dest='ja')
+        #print("  %d) %s (p=%f)" % (i, result, math.exp(caption.logprob)))
+        global displayCaption
+        if i==0:
+            displayCaption = result.text
+            print(displayCaption)
+            return displayCaption
+        return displayCaption
 
 if __name__ == "__main__":
   tf.app.run()
