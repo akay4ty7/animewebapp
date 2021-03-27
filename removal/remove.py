@@ -4,7 +4,7 @@ import cv2
 import tensorflow as tf
 from removal.model import *
 
-tf.reset_default_graph()
+
 
 
 def remove():
@@ -20,6 +20,7 @@ def remove():
     input_image_masked = masked_img[:, :, [2, 1, 0]]
     shape = np.array(input_image_masked).shape
     input_tensor = np.array(input_image_masked).reshape(1, shape[0], shape[1], shape[2])
+    tf.reset_default_graph()
     pretrained_model = 'removal/pretrained_model'
     sess = tf.Session()
     isTraining = tf.placeholder(tf.bool)
