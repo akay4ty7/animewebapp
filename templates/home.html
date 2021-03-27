@@ -5,6 +5,7 @@
 <head>
   <link rel="stylesheet" href="../static/css/styles.css">
   <title>home</title>
+
 </head>
 <body>
   <div class="topnav">
@@ -22,9 +23,11 @@
       Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file">
     </span><br/><br/>
     <img id="output"><br/>
-    <input class="button" type="submit" value="Upload">
+      <input class="button" type="submit" value="Upload">
   </form>
-  <img src="{{ user_image }}">
+  <img src="{{ user_image }}"><img src="{{ removal_img }}"><br/>
+    {{ description }} <br/>
+    {{ ja_description }}
   <form action="/get-image" method="post"><br/>
     <input class="button" type="submit" value="Download">
   </form>

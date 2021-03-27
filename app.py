@@ -5,11 +5,16 @@ from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
 from test import runTest
-from testDet2 import det2run
+#from testDet2 import det2run
+from removal.remove import remove
+from im2txt.run_inference import im2txt
 
 app = Flask(__name__)
 currentImageName = ""
 full_filename = ""
+description = ""
+ja_description = ""
+removal_img = ""
 
 @app.route('/privacypolicy/')
 def privacypolicy():
@@ -33,7 +38,8 @@ def ackJ():
 
 @app.route("/")
 def home():
-    return render_template('home.html', user_image = full_filename)
+    return render_template('home.html', user_image = full_filename,description = description,
+                           ja_description = ja_description,removal_img=removal_img)
 #only allow certain image style to be upload
 
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
@@ -68,11 +74,16 @@ def handleFileUpload():
                 global currentImageName
                 currentImageName = PictureName
                 #the place to store image
+                print(os.path.join('./static/client/img', filename))
                 photo.save(os.path.join('./static/client/img', filename))
                 det2run(filename)
+                remove()
+                global full_filename, description, ja_description,removal_img
+                removal_img = "./static/client/removal_img.jpg"
+                description, ja_description = im2txt(os.path.join('./static/client/img', filename))
                 runTest()
-                global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], currentImageName)
+
                 return redirect(url_for('home'))
 
 def make_unique(string):
@@ -80,8 +91,14 @@ def make_unique(string):
     return f"{ident}-{string}"
 
 def deleteAllFile():
-    for allFile in os.listdir('./static/client/img'):
-        file_path = os.path.join('./static/client/img', allFile)
+    cur_path = 'F:/animewebapp'
+    static_path = os.path.join(cur_path, './static/client/img')
+    print(static_path)
+    all_dir = os.listdir(static_path)
+    print(all_dir)
+    for allFile in all_dir:
+        file_path = os.path.join(static_path, allFile)
+        print(file_path)
         os.remove((file_path))
 
 def GreyTone(imgPath,savePath,imageName):

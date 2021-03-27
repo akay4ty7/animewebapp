@@ -8,6 +8,9 @@ import numpy as np
 from net import generator
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+tf.reset_default_graph()
+
+
 def parse_args():
     desc = "AnimeGANv2"
     parser = argparse.ArgumentParser(description=desc)
@@ -32,11 +35,12 @@ def stats_graph(graph):
 
 def test(img_size=[256,256]):
     checkpoint_dir = 'checkpoint/generator_Hayao_weight'
-    # tf.reset_default_graph()
-    result_dir = 'static/client/img'
-    test_dir = 'static/client/img'
+    tf.reset_default_graph()
+    result_dir = './static/client/img'
+    test_dir = './static/client/img'
     check_folder(result_dir)
     test_files = glob('{}/*.*'.format(test_dir))
+    print(test_files)
 
     test_real = tf.placeholder(tf.float32, [1, None, None, 3], name='test')
 
@@ -56,16 +60,23 @@ def test(img_size=[256,256]):
             saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
 
         begin = time.time()
+        init_g = tf.global_variables_initializer()
+        sess.run(init_g)
         for sample_file  in tqdm(test_files) :
+            print("start")
             sample_image = np.asarray(load_test_data(sample_file, img_size))
             image_path = os.path.join(result_dir,'{0}'.format(os.path.basename(sample_file)))
             fake_img = sess.run(test_generated, feed_dict = {test_real : sample_image})
+            print("done")
             #adjustBrightness
             save_images(fake_img, image_path, sample_file)
             #save_images(fake_img, image_path, None)
         end = time.time()
         print(f'test-time: {end-begin} s')
-        print(f'one image test time : {(end-begin)/len(test_files)} s')
+        #print(f'one image test time : {(end-begin)/len(test_files)} s')
 
 def runTest():
     test()
+
+if __name__ == '__main__':
+    runTest()

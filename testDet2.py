@@ -53,12 +53,29 @@ def det2run(filename):
 
     directory = './static/client/img' # Directory for taking and putting the image
     img: np.ndarray = cv2.imread(os.path.join(directory, filename))
-
+    x, y = img.shape[0:2]
+    origin_img = img
+    img = cv2.resize(img, (400, 400))
     output: Instances = predictor(img)["instances"]
+    store_removal_mask(output,origin_img)
     v = Visualizer(img[:, :, ::-1],
                    MetadataCatalog.get(cfg.DATASETS.TRAIN[0]),
                    scale=1.0)
     result: VisImage = v.draw_instance_predictions(output.to("cpu"))
     result_image: np.ndarray = result.get_image()[:, :, ::-1]
-
+    result_image = cv2.resize(result_image, (y, x))
     cv2.imwrite(os.path.join(directory, filename), result_image)
+
+
+def store_removal_mask(output_instance,img):
+  removal_mask = np.zeros((400,400),dtype=bool)
+  for i in range(output_instance.pred_classes.shape[0]):
+    if output_instance.pred_classes[i] == 0:
+      removal_mask = removal_mask | output_instance.pred_masks.cpu().numpy()[i]
+  np.save('./static/client/mask.npy', removal_mask)
+  np.save('./static/client/img.npy', img)
+
+
+
+
+
