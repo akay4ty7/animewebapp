@@ -5,7 +5,7 @@ from uuid import uuid4
 import numpy as np
 from werkzeug.utils import secure_filename
 from test import runTest
-#from testDet2 import det2run
+from testDet2 import det2run
 from removal.remove import remove
 from im2txt.run_inference import im2txt
 
