@@ -1,6 +1,6 @@
 # Anime Arc
 
-This is a web-application that allows users to submit an image (prefereably scenery forcused photographs) which will then be processed and re-iamgined into an anime style (Haya Miyazaki Style). Furthermore, any humans that are detected are removed and replaced with popular anime characters (Goku, Naruto, Ichigo, etc.).
+This is a web-application that allows users to submit an image (prefereably scenery forcused photographs) which will then be processed and re-iamgined into an anime style (Haya Miyazaki Style). Furthermore, any humans that are detected are removed and replaced with popular anime characters (Goku, Naruto, Ichigo, etc.). The image is also describedin English, then translated to Japanese and finally pasted onto the result image.
 
 ## Getting Started
 
@@ -66,6 +66,7 @@ Below are the projects that the team used.
 * [Detectron2 by Facebook](https://github.com/facebookresearch/detectron2) - Used for human detection and replacement.
 * [Automated-objects-removal-inpainter by sujaykhandekar](https://github.com/sujaykhandekar/Automated-objects-removal-inpainter) - Used for the removal of humans.
 * [Im2txt by HughKu](https://github.com/HughKu/Im2txt) - Used for image-to-text funtionality.
+* [README-Template.md by PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 
 * Inspiration
 * etc
