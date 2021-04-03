@@ -78,23 +78,9 @@ def add_anime_characters(output_instance, img, filename):
 
             # print(anime_images)
             print(filename)
-            #Lu Simon
             x1, y1 = anime.shape[0:2]
-            """if (col_end - col_start) / y1 < (row_end - row_start) / x1:
-                anime = cv2.resize(anime, (col_end - col_start, int((x1 * (col_end - col_start)) / y1)))
-                img = cleanBackGround(img, anime, row_start, row_start + int((x1 * (col_end - col_start)) / y1),
-                               col_start, col_end)
-            else:
-                anime = cv2.resize(anime, (int((y1 * (row_end - row_start)) / x1), row_end - row_start))
-                img = cleanBackGround(img, anime, row_start, row_end, col_start,
-                                    col_start + int((y1 * (row_end - row_start)) / x1))"""
-            # Lu Simon
-            #maaka
-            """anime = cv2.resize(anime, (col_end - col_start, int(x1*((col_end - col_start)/y1))))
-            img = cleanBackGround(img, anime, row_start, row_start+int(x1*((col_end - col_start)/y1)), col_start, col_end)"""
             anime = cv2.resize(anime, (int(y1*((row_end - row_start)/x1)),row_end - row_start))
             img = cleanBackGround(img, anime, row_start, row_end, col_start, col_start+int(y1*((row_end - row_start)/x1)))
-            #maaka
 
             cv2.imwrite('./static/client/img/' + filename, img)
 
