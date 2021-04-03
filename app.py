@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for, request, redirect, send_from_
 from PIL import Image, ImageFont, ImageDraw, ImageFile
 from uuid import uuid4
 import numpy as np
+import PIL.Image
 from werkzeug.utils import secure_filename
 from test import runTest
 from testDet2 import det2run
@@ -67,15 +68,15 @@ def handleFileUpload():
         changeName = make_unique(fileName)
         if fileName != ' ':
             if allow_image(fileName):
-                pngtojpg(fileName)
                 deleteAllFile()
                 fileName = secure_filename(fileName)
-                #the place to store image
-                print(fileName)
                 photo.save(os.path.join('./static/client/img', fileName))
                 old = os.path.join('static/client/img/', fileName)
                 new = os.path.join('static/client/img/', changeName)
                 os.rename(old, new)
+                rgbatoRGB(changeName)
+                origin_img = cv2.imread(os.path.join('static/client/img/', changeName))
+                cv2.imwrite(r'./static/client/origin_img.jpg', origin_img)
                 global originRatio
                 originRatio = imagesize()
                 global text
@@ -83,9 +84,9 @@ def handleFileUpload():
                 global squareImage
                 squareImage = main(mode=2)
                 imageResize()
-                #det2run(filename)
+                det2run(changeName)
                 runTest()
-                #textinput(changeName)
+                textDraw()
                 global full_filename
                 full_filename = os.path.join(app.config['CLIENT_IMAGES'], changeName)
                 return redirect(url_for('home'))
@@ -99,19 +100,10 @@ def deleteAllFile():
         file_path = os.path.join('./static/client/img', allFile)
         os.remove((file_path))
 
-def pngtojpg(originalImageName):
-    """
-
-    originalImageName.load()  # required for png.split()
-    newRGB = Image.new("RGB", originalImageName.size, (255, 255, 255))
-    newRGB.paste(originalImageName, mask=originalImageName.split()[3])  # 3 is the alpha channel
-    newRGB.save('foo.jpg', 'JPEG', quality=100)
-
-    """
-    print(originalImageName)
-    root_ext = originalImageName.rsplit(".", 1)[0] + ".jpg"
-    print(root_ext)
-    return root_ext
+def rgbatoRGB(changeName):
+    rgba_image = PIL.Image.open("static/client/img/" + changeName)
+    rgb_image = rgba_image.convert('RGB')
+    rgb_image.save("static/client/img/" + changeName)
 
 def imagesize():
     fileNameSize = Image.open("static/client/img/" + changeName)
@@ -119,16 +111,18 @@ def imagesize():
 
 def imageResize():
     squareImage = Image.open("static/client/img/" + changeName)
-    print(squareImage.size)
-    print(originRatio.size)
     size = originRatio.size
-    print(size)
     squareImage = squareImage.resize(size)
-    print(squareImage.size)
     basewidth = 1250
     wpercent = (basewidth / float(squareImage.size[0]))
     hsize = int((float(squareImage.size[1]) * float(wpercent)))
     squareImage = squareImage.resize((basewidth, hsize), Image.ANTIALIAS)
+
+    squareImage.save(os.path.join('static/client/img/', changeName))
+
+def textDraw():
+
+    squareImage = Image.open("static/client/img/" + changeName)
 
     imagedraw = ImageDraw.Draw(squareImage)
     fontsize = 1
