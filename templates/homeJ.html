@@ -22,10 +22,10 @@
     <span>
       ファイルを選んでください: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
     </span><br/><br/>
-    <img id="output"><br/>
+    <img class="custom" id="output"><br/>
     <input class="button" type="submit" value="アップロード" disabled/>
   </form>
-  <img src="{{ user_image }}">
+  <img class="custom" src="{{ user_image }}">
   <form action="/get-image" method="post"><br/>
     <input class="button" type="submit" value="ダウンロード">
   </form>

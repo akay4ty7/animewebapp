@@ -1,11 +1,10 @@
 body {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Lato';
 	line-height: 1.75em;
 	font-size: 16px;
 	background-color: #121212;
 	color: #F4F9F9;
 	margin: auto;
-	font-family: 'Brush Script MT', cursive;
 }
 
 .cont01 {
@@ -45,7 +44,7 @@ div {
 }
 
 h1 {
-	font-family: 'Brush Script MT', cursive;
+	font-family: 'Lato';
   font-size: 50px;
   color: #635158;
 }
@@ -76,4 +75,9 @@ h1 {
 .topnav a.active {
   background-color: #D6787D;
   color: #F4F9F9;
+}
+
+img.custom:hover,
+img.custom:focus {
+  transform: scale(5.5);
 }

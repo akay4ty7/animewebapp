@@ -22,12 +22,12 @@
     <span>
       Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
     </span><br/><br/>
-    <img id="output"><br/>
+    <img class="custom" id="output"><br/>
 
     <input class="button" type="submit" value="Upload" id="uploadButton" disabled/>
 
   </form>
-  <img src="{{ user_image }}" id="processedImage">
+  <img class="custom" src="{{ user_image }}" id="processedImage">
   <form action="/get-image" method="post"><br/>
     <input class="button" type="submit" value="Download" id="downloadButton" disabled/>
   </form>
