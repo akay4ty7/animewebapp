@@ -1,0 +1,79 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	line-height: 1.75em;
+	font-size: 16px;
+	background-color: #121212;
+	color: #F4F9F9;
+	margin: auto;
+	font-family: 'Brush Script MT', cursive;
+}
+
+.cont01 {
+  background-color: #AD8A92;
+  padding: 10px;
+	margin: auto;
+	width: 85%;
+	text-align: center;
+	border-radius: 10px;
+}
+
+.button {
+  background-color: #D6787D;
+  color: #F4F9F9;
+  transition-duration: 0.4s;
+  padding: 10px;
+}
+
+.button:hover {
+  background-color: #F4F9F9;
+  color: #121212;
+}
+
+img {
+	height: 100px;
+	width: auto;
+}
+
+div span {
+	padding: 10px;
+	border: 1px solid #635158;
+}
+
+div {
+  width: 2000px;
+  margin: auto;
+}
+
+h1 {
+	font-family: 'Brush Script MT', cursive;
+  font-size: 50px;
+  color: #635158;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #635158;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #F4F9F9;
+  color: #121212;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #D6787D;
+  color: #F4F9F9;
+}
