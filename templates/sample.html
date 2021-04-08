@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <title>home</title>
+</head>
+<body>
+  <div class="topnav">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a class="active" href="{{ url_for('sample') }}">Samples</a>
+    <a href="{{ url_for('privacypolicy') }}">Privacy Policy</a>
+    <a href="{{ url_for('ack') }}">Acknowledgements</a>
+    <a href="{{ url_for('homeJ') }}">日本語</a>
+</div>
+
+<div class="cont01">
+  <table  class="table" border="5" bordercolor="red" align="center">
+    <tr>
+        <th colspan="2">Samples</th>
+    </tr>
+    <tr>
+        <th>Before</th>
+        <th>After</th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample_photos\sample1.jpg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample_photos\sample1A.jpg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample2.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample2A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample3.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample3A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample4.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample4A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample5.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample5A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample6.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample6A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+    <tr>
+        <td><img class="custom" src="..\static\sample-photos\sample7.jpeg" alt="" border=2 height=100 width=300></img></th>
+        <td><img class="custom" src="..\static\sample-photos\sample7A.jpeg" alt="" border=2 height=100 width=300></img></th>
+    </tr>
+</table>
+</div>
+</body>
+</html>

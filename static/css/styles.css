@@ -49,6 +49,13 @@ h1 {
   color: #635158;
 }
 
+/* Table styling for sample page*/
+.table {
+	border: 5px;
+	border-color: red;
+	align: center;
+}
+
 /* Add a black background color to the top navigation */
 .topnav {
   background-color: #635158;
@@ -77,7 +84,9 @@ h1 {
   color: #F4F9F9;
 }
 
+/* Image increase size when hovering for ewasier viewing.*/
 img.custom:hover,
 img.custom:focus {
-  transform: scale(5.5);
+  transform: scale(3.3);
+	transition: .2s;
 }
