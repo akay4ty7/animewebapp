@@ -1,6 +1,8 @@
 # Anime Web App
 
-Auckland University of Technology (AUT) Research and Development paper project. This is a web application uses a filter that will reimagine an image into an anime style photo, replaces humans with anime characters and adding a Japanese text that describe the image. Our web application also includes a Japanese language web version.
+This is an Auckland University of Technology (AUT) Research and Development paper project. 
+
+This is a web application that uses a filter that will re-imagine an image into an anime style (specifically Hayao Miyazaki style) photo, replaces humans with anime characters and adds a Japanese description of the image. 
 
 ## Authors
 
