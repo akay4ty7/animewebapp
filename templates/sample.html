@@ -15,44 +15,76 @@
     <a href="{{ url_for('homeJ') }}">日本語</a>
 </div>
 
+
 <div class="cont01">
-  <table  class="table" border="5" bordercolor="red" align="center">
-    <tr>
-        <th colspan="2">Samples</th>
-    </tr>
-    <tr>
-        <th>Before</th>
-        <th>After</th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample_photos\sample1.jpg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample_photos\sample1A.jpg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample2.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample2A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample3.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample3A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample4.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample4A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample5.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample5A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample6.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample6A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-    <tr>
-        <td><img class="custom" src="..\static\sample-photos\sample7.jpeg" alt="" border=2 height=100 width=300></img></th>
-        <td><img class="custom" src="..\static\sample-photos\sample7A.jpeg" alt="" border=2 height=100 width=300></img></th>
-    </tr>
-</table>
+  <h1>Anime Arc Sample Images</h1>
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample2.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\01f938fd-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample1.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\a54510bd-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample3.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\06d43ffb-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample4.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\542b1e7c-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample5.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\f9587529-img.jpg" alt="Anime Arc"></br></br>
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample6.png" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\21bef18b-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample7.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\cd629ec8-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample8.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\f4ddc9c5-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample9.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\9c65845f-img.jpg" alt="Anime Arc">
+
+  <img class="myImages" id="myImg" src="..\static\sample_photos\Sample10.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\a0533d34-img.jpg" alt="Anime Arc">
+
 </div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+
+<script>
+// create references to the modal...
+var modal = document.getElementById('myModal');
+// to all images -- note I'm using a class!
+var images = document.getElementsByClassName('myImages');
+// the image in the modal
+var modalImg = document.getElementById("img01");
+// and the caption in the modal
+var captionText = document.getElementById("caption");
+
+// Go through all of the images with our custom class
+for (var i = 0; i < images.length; i++) {
+  var img = images[i];
+  // and attach our click listener for this image.
+  img.onclick = function(evt) {
+    console.log(evt);
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+  }
+}
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+</script>
+
 </body>
 </html>

@@ -17,7 +17,20 @@
 
 <div class="cont01">
   <h1>アニメアーク</h1>
-  <p>このアプリケーションは。。。</p>
+  <div class="cont02">
+  <p>これはオークランド工科大学の研究・開発プロジェクトです。</p>
+  <p>これはある画像をアニメのスタイル、特に宮崎駿のスタイルに編集するフィルターを使用しているウェブアプリケーションです。人をアニメのキャラクターの代わりにいれて、画像に日本語の説明文を付け加えます。</p>
+  <p>さらに、アプリケーションは日本語にも対応しており、それはメニューバーのトップにあります。</p>
+  <h2>何ができるのか？</h2>
+  <img class="myImages" id="myImg" src="..\static\sample_photos\ORIGINAL.jpg" alt="原画">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\ANIMEARC_DRAWN.jpg" alt="Anime Arc">
+  <h2>詳細</h2>
+  <p>人を消す機能： 人を消す機能は、Sujay Khandekarによる熟練した <a href="https://github.com/sujaykhandekar/Automated-objects-removal-inpainter" target="_blank">エッジ検出モデル</a>によって作られています。</p>
+  <p>人を入れ替える機能：人を入れ替える機能は、人を消す前に画像の人の位置を確認するために、<a href="https://github.com/facebookresearch/detectron2" target="_blank">フェイスブックの検出技術</a> を使っています。</p>
+  <p>アニメフィルター機能：アニメフィルター機能は、Tachibana Yoshino の<a href="https://github.com/TachibanaYoshino/AnimeGANv2" target="_blank">AnimeGANv2</a>から提供されている宮崎駿モデルから引用しています。</p>
+  <p>日本語の説明文機能：日本語の説明文機能は、もともとはHugh Kuの<a href="https://github.com/hughKu/Im2txt" target="_blank">Im2txtモデル</a>を通して画像に英語で表示されていました。英語が画像から見つけられたらすぐに、Google translateのAPIを経由して翻訳され、画面に表示されます。</p>
+  <p>皆さんがこのアプリケーションを楽しめますように！</p>
+</div>
   <form action="/handleUpload" method="post" enctype="multipart/form-data">
     <span>
       ファイルを選んでください: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
@@ -30,7 +43,42 @@
     <input class="button" type="submit" value="ダウンロード">
   </form>
 </div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
 </body>
+
+<script>
+// create references to the modal...
+var modal = document.getElementById('myModal');
+// to all images -- note I'm using a class!
+var images = document.getElementsByClassName('myImages');
+// the image in the modal
+var modalImg = document.getElementById("img01");
+// and the caption in the modal
+var captionText = document.getElementById("caption");
+
+// Go through all of the images with our custom class
+for (var i = 0; i < images.length; i++) {
+  var img = images[i];
+  // and attach our click listener for this image.
+  img.onclick = function(evt) {
+    console.log(evt);
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+  }
+}
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+</script>
 
 <script>
 var loadFile = function(event) {
