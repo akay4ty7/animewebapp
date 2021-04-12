@@ -10,6 +10,7 @@
 <body>
   <div class="topnav">
   <a class="active" href="{{ url_for('homeJ') }}">ホーム</a>
+  <a href="{{ url_for('sampleJ') }}">サンプル画像</a>
   <a href="{{ url_for('privacypolicyJ') }}">個人情報保護方針</a>
   <a href="{{ url_for('ackJ') }}">確認</a>
   <a href="{{ url_for('home') }}">English</a>
@@ -23,7 +24,7 @@
   <p>さらに、アプリケーションは日本語にも対応しており、それはメニューバーのトップにあります。</p>
   <h2>何ができるのか？</h2>
   <img class="myImages" id="myImg" src="..\static\sample_photos\ORIGINAL.jpg" alt="原画">
-  <img class="myImages" id="myImg" src="..\static\sample_photos\ANIMEARC_DRAWN.jpg" alt="Anime Arc">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\ANIMEARC_DRAWN.jpg" alt="アニメアーク">
   <h2>詳細</h2>
   <p>人を消す機能： 人を消す機能は、Sujay Khandekarによる熟練した <a href="https://github.com/sujaykhandekar/Automated-objects-removal-inpainter" target="_blank">エッジ検出モデル</a>によって作られています。</p>
   <p>人を入れ替える機能：人を入れ替える機能は、人を消す前に画像の人の位置を確認するために、<a href="https://github.com/facebookresearch/detectron2" target="_blank">フェイスブックの検出技術</a> を使っています。</p>
