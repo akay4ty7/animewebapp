@@ -49,7 +49,14 @@
     <img class="custom" id="output"><br/>
     <input class="button" type="submit" value="アップロード" disabled/>
   </form>
-  <img class="custom" src="{{ user_image }}">
+  <img class="myImages" src="{{ user_image }}" id="myImg">
+
+  <p id='explanations' style='display: none'><ruby>{{ renderTextE }}<rt>{{ renderTextEF }}</rt></ruby> {{ renderText }}<br/>
+    <ruby>{{ renderTextJ }}<rt>{{ renderTextJF }}</rt></ruby> {{ renderText2 }}<br/>
+    <ruby>{{ renderTextEX }}<rt>{{ renderTextEXF }}</rt></ruby> {{ renderText3 }}</p><br/>
+
+  <button class="button" type='button' onclick="toggleText()"><ruby>説明<rt>せつめい</rt></ruby></button>
+
   <form action="/get-image" method="post"><br/>
     <input class="button" type="submit" value="ダウンロード">
   </form>
@@ -61,6 +68,17 @@
   <div id="caption"></div>
 </div>
 </body>
+
+<script>
+function toggleText() {
+  var text = document.getElementById("explanations");
+  if (text.style.display === "none") {
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}
+</script>
 
 <script>
 // create references to the modal...

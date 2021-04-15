@@ -37,12 +37,18 @@
     <span>
       Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
     </span><br/><br/>
-    <img class="custom" id="output"><br/>
+    <img class="myImages" id="output"><br/>
 
     <input class="button" type="submit" value="Upload" id="uploadButton" disabled/>
 
   </form>
-  <img class="custom" src="{{ user_image }}" id="processedImage">
+  <img class="myImages" src="{{ user_image }}" id="myImg">
+ <p id='explanations' style='display: none'>{{ renderText }}<br/>
+    {{ renderText2 }}<br/>
+   {{ renderText3 }}</p><br/>
+
+  <button class="button" type='button' onclick="toggleText()">Explanations</button>
+
   <form action="/get-image" method="post"><br/>
     <input class="button" type="submit" value="Download"/>
   </form>
@@ -54,6 +60,17 @@
   <div id="caption"></div>
 </div>
 </body>
+
+<script>
+function toggleText() {
+  var text = document.getElementById("explanations");
+  if (text.style.display === "none") {
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}
+</script>
 
 <script>
 // create references to the modal...
