@@ -90,13 +90,6 @@ h1 {
   color: #F4F9F9;
 }
 
-/* Image increase size when hovering for ewasier viewing.
-img.custom:hover,
-img.custom:focus {
-  transform: scale(5.5);
-	transition: .2s;
-}*/
-
 #myImg {
   border-radius: 5px;
   cursor: pointer;
