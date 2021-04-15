@@ -28,7 +28,6 @@ import configuration
 import inference_wrapper
 from inference_utils import caption_generator
 from inference_utils import vocabulary
-from googletrans import Translator
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -108,15 +107,7 @@ def im2txt(currentimagename):
         # Ignore begin and end words.
         sentence = [vocab.id_to_word(w) for w in caption.sentence[1:-1]]
         sentence = " ".join(sentence)
-        # Translator for English to Japanese
-        translator = Translator()
-        result = translator.translate(sentence, src='en', dest='ja')
-        global displayCaption
-        if i == 0:
-            displayCaption = result.text
-            print(displayCaption)
-            return displayCaption
-        return displayCaption
+        return sentence
 
 if __name__ == "__main__":
   tf.app.run()

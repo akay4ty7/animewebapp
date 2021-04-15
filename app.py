@@ -8,12 +8,25 @@ from animeFilter import animeFilter
 from det2HumanReplace import humanReplacement
 from im2txt import im2txt
 from humanRemoval import humanRemoval
+from googletrans import Translator
+import pykakasi
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 app = Flask(__name__)
 global fileName
 full_filename = ""
+textD = ""
+japanese = ""
+displayText = ""
+stringfuri = ""
+furi = ""
+englishKanji = ""
+japaneseKanji = ""
+explanationKanji = ""
+englishFuri = ""
+japaneseFuri = ""
+explanationFuri = ""
 
 @app.route('/privacypolicy/')
 def privacypolicy():
@@ -33,7 +46,7 @@ def ack():
 
 @app.route('/homeJ/')
 def homeJ():
-    return render_template('homeJ.html', user_image=full_filename)
+    return render_template('homeJ.html', user_image=full_filename, renderText=textD, renderText2=japanese, renderText3=furi, renderTextE=englishKanji, renderTextJ=japaneseKanji, renderTextEX=explanationKanji,  renderTextEF=englishFuri, renderTextJF=japaneseFuri, renderTextEXF=explanationFuri)
 
 @app.route('/privacypolicyJ/')
 def privacypolicyJ():
@@ -45,7 +58,7 @@ def ackJ():
 
 @app.route("/")
 def home():
-    return render_template('home.html', user_image=full_filename)
+    return render_template('home.html', user_image=full_filename, renderText=textD, renderText2=japanese, renderText3=furi)
 
 # Only allow certain image style to be upload.
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG"]
@@ -90,12 +103,34 @@ def handleFileUpload():
                 humanReplacement(changeName)
                 animeFilter()
                 textDraw()
+                furigana()
                 global full_filename
+                global textD
+                global japanese
+                global furi
+                global englishKanji
+                global japaneseKanji
+                global explanationKanji
+                global englishFuri
+                global japaneseFuri
+                global explanationFuri
                 print("request.referrer: ", request.referrer)
                 if request.referrer == "http://127.0.0.1:5000/homeJ/":
+                    englishKanji = u"英語: "
+                    englishFuri = u"えいご"
+                    textD = (im2txt(changeName)).capitalize()
+                    japaneseKanji = u"日本語: "
+                    japaneseFuri = u"にほんご"
+                    japanese = u"" + displayText
+                    explanationKanji = u"説明: "
+                    explanationFuri = u"せつめい"
+                    furi = u"" + stringfuri
                     full_filename = os.path.join(app.config['CLIENT_IMAGESJ'], changeName)
                     return redirect(url_for('homeJ'))
                 else:
+                    textD = "English: " + (im2txt(changeName)).capitalize()
+                    japanese = "Japanese: " + u"" + displayText
+                    furi = "Explanations: " + u"" + stringfuri
                     full_filename = os.path.join(app.config['CLIENT_IMAGES'], changeName)
                     return redirect(url_for('home'))
 
@@ -145,23 +180,51 @@ def imageResize():
 
     squareImage.save(os.path.join('static/client/img/', changeName))
 
-# This definition draws the Japanese text onto the screen.
-def textDraw():
+def converttostr(input_seq, seperator):
+   # Join all the strings in list
+   final_str = seperator.join(input_seq)
+   return final_str
 
+# This definition draws the Japanese text onto the screen.
+def furigana():
+    print(text)
+    translator = Translator()
+    result = translator.translate(text, src='en', dest='ja')
+    global displayText
+    displayText = result.text
+
+    kks = pykakasi.kakasi()
+    furiganaText = kks.convert(displayText)
+
+    global stringfuri
+    stringfurii = []
+
+    for item in furiganaText:
+        elements = ("{}[{}][{}] ".format(item['orig'], item['hira'].capitalize(), item['hepburn'].capitalize()))
+        stringfurii.append(elements)
+        print(stringfurii)
+    seperation = ' '
+    stringfuri = converttostr(stringfurii, seperation)
+
+def textDraw():
+    print(text)
+    translator = Translator()
+    result = translator.translate(text, src='en', dest='ja')
+    displayText = result.text
     squareImage = Image.open("static/client/img/" + changeName)
 
     imagedraw = ImageDraw.Draw(squareImage)
     fontsize = 1
-    img_fraction = 0.50
+    img_fraction = 0.60
     title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
 
-    while title_font.getsize(text)[0] < img_fraction * squareImage.size[0]:
+    while title_font.getsize(displayText)[0] < img_fraction * squareImage.size[0]:
         # iterate until the text size is just larger than the criteria
         fontsize += 1
         title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
     fontsize -= 1
     title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-    imagedraw.text((10, 25), text, (252, 190, 17), font=title_font)
+    imagedraw.text((10, 25), displayText, (252, 190, 17), font=title_font)
 
     squareImage.save(os.path.join('static/client/img/', changeName))
 
