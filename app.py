@@ -102,7 +102,7 @@ def handleFileUpload():
                 imageResize()
                 humanReplacement(changeName)
                 animeFilter()
-                textDraw()
+                textDrawJ()
                 furigana()
                 global full_filename
                 global textD
@@ -206,17 +206,29 @@ def furigana():
     seperation = ' '
     stringfuri = converttostr(stringfurii, seperation)
 
-def textDraw():
+def textDrawJ():
     print(text)
     translator = Translator()
+    resultE = translator.translate(text, src='en', dest='en')
     result = translator.translate(text, src='en', dest='ja')
+    displayTextE = resultE.text
     displayText = result.text
     squareImage = Image.open("static/client/img/" + changeName)
+    width, height = squareImage.size
 
     imagedraw = ImageDraw.Draw(squareImage)
     fontsize = 1
     img_fraction = 0.60
     title_font = ImageFont.truetype('JPFONT.ttf', fontsize)
+
+    while title_font.getsize(displayTextE)[0] < img_fraction * squareImage.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    fontsize -= 1
+    title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
+    w, h = title_font.getsize(displayTextE)
+    imagedraw.text(((width - w)/2, height - h - 10), displayTextE.capitalize(), (252, 190, 17), font=title_font, stroke_width=2, stroke_fill='black')
 
     while title_font.getsize(displayText)[0] < img_fraction * squareImage.size[0]:
         # iterate until the text size is just larger than the criteria
@@ -224,9 +236,13 @@ def textDraw():
         title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
     fontsize -= 1
     title_font = ImageFont.truetype("JPFONT.ttf", fontsize)
-    imagedraw.text((10, 25), displayText, (252, 190, 17), font=title_font)
+    wj, hj = title_font.getsize(displayText)
+    imagedraw.text(((width - wj)/2, height - hj - h - 20), displayText, (255, 255, 255), font=title_font, stroke_width=2, stroke_fill='black')
 
     squareImage.save(os.path.join('static/client/img/', changeName))
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
