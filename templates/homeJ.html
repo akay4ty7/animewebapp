@@ -46,10 +46,10 @@
     <span>
       ファイルを<ruby>選<rt>えら</rt></ruby>んでください: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
     </span><br/><br/>
-    <img class="custom" id="output"><br/>
-    <input class="button" type="submit" value="アップロード" disabled/>
+    <img class="imageDisplay" id="output"><br/>
+    <input class="button" type="submit" value="アップロード" id="uploadButton" disabled/>
   </form>
-  <img class="myImages" src="{{ user_image }}" id="myImg">
+  <img class="imageDisplay" src="{{ user_image }}">
 
   <p id='explanations' style='display: none'><ruby>{{ renderTextE }}<rt>{{ renderTextEF }}</rt></ruby> {{ renderText }}<br/>
     <ruby>{{ renderTextJ }}<rt>{{ renderTextJF }}</rt></ruby> {{ renderText2 }}<br/>
@@ -124,9 +124,7 @@ var loadFile = function(event) {
         $('input:file').change(
             function(){
                 if ($(this).val()) {
-                    $('input:submit').attr('disabled',false);
-                    // or, as has been pointed out elsewhere:
-                    // $('input:submit').removeAttr('disabled');
+                    $('#uploadButton').attr('disabled',false);
                 }
             }
             );
