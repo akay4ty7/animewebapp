@@ -1,0 +1,245 @@
+body {
+	font-family: 'Lato';
+	line-height: 1.75em;
+	font-size: 24px;
+	background-color: #121212;
+	color: #F4F9F9;
+	margin: auto;
+}
+
+.cont01 {
+  background-color: #AD8A92;
+  padding: 10px;
+  margin: auto;
+  width: 85%;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.cont02 {
+	margin: auto;
+	text-align: left;
+	width: 80%;
+}
+
+.button {
+  background-color: #D6787D;
+  color: #F4F9F9;
+  transition-duration: 0.4s;
+  padding: 10px;
+}
+
+.button:hover {
+  background-color: #F4F9F9;
+  color: #121212;
+}
+
+img {
+	height: 400px;
+	width: auto;
+}
+
+.imageDisplay {
+	max-height: 100%;
+	max-width: 1000px;
+	width: 100%;
+	height: auto;
+}
+
+div span {
+	padding: 10px;
+	border: 1px solid #635158;
+}
+
+div {
+  width: 2000px;
+  margin: auto;
+}
+
+h1 {
+  font-family: 'Lato';
+  font-size: 75px;
+  color: #121212;
+}
+
+h2 {
+  font-family: 'Lato';
+  font-size: 35px;
+  color: #121212;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #635158;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #F4F9F9;
+  color: #121212;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #D6787D;
+  color: #F4F9F9;
+}
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {
+  opacity: 0.7;
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+	height: auto;
+  width: auto;
+  max-width: 1000px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.modal-content,
+#caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0)
+  }
+  to {
+    transform: scale(1)
+  }
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
