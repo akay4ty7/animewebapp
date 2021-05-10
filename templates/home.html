@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link rel="stylesheet" href="../static/css/styles.css">
+  <title>home</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="topnav">
+  <a class="active" href="{{ url_for('home') }}">Home</a>
+  <a href="{{ url_for('sample') }}">Sample</a>
+  <a href="{{ url_for('privacypolicy') }}">Privacy Policy</a>
+  <a href="{{ url_for('ack') }}">Acknowledgements</a>
+  <a href="{{ url_for('homeJ') }}"><ruby>日本語<rt>にほんご</rt></ruby></a>
+</div>
+
+<div class="cont01">
+  <h1>Anime Arc</h1>
+  <div class="cont02">
+  <p>This is an Auckland University of Technology (AUT) Research and Development project.</p>
+  <p>This is a web application that uses a filter that will re-imagine an image into an anime style (specifically Hayao Miyazaki style) photo, replaces humans with anime characters and adds a Japanese description of the image. </p>
+  <p>We also provide a Japanese version of this web application located on the top menu bar.</p>
+  <h2>What to look for?</h2>
+  <img class="myImages" id="myImg" src="..\static\sample_photos\ORIGINAL.jpg" alt="Original">
+  <img class="myImages" id="myImg" src="..\static\sample_photos\ANIMEARC_DRAWN.jpg" alt="Anime Arc">
+  <h2>Explanation</h2>
+  <p>Human Removal: The human removal is done by a pre trained <a href="https://github.com/sujaykhandekar/Automated-objects-removal-inpainter" target="_blank">edge detection model</a> by Sujay Khandekar.</p>
+  <p>Human Replacement: The human replacement starts off by using <a href="https://github.com/facebookresearch/detectron2" target="_blank">Facebook’s Detectron2 technology</a> to locate the human on the image before removal. Once the locations have been saved the anime characters are then placed with scaling to adhere to the sizes. </p>
+  <p>Anime Filter: The anime filter is derived from a Hayao Miyazaki weight provided by Tachibana Yoshino’s <a href="https://github.com/TachibanaYoshino/AnimeGANv2" target="_blank">AnimeGANv2</a>.</p>
+  <p>Japanese Image Descriptions: The Japanese descriptions displayed on the image are formulated initially in English through Hugh Ku’s <a href="https://github.com/hughKu/Im2txt" target="_blank">Im2Txt Model</a>. Once the English has been formed from the image, it is translated via the Google translate API and pasted on the screen. </p>
+  <p>We hope you enjoy our application!</p>
+</div>
+
+  <form action="/handleUpload" method="post" enctype="multipart/form-data" onsubmit="loading()">
+    <span>
+      Choose the file: <input type="file" accept="image/*" onchange= "loadFile(event)" name="photo" id="file"/>
+    </span><br/><br/>
+    <img class="imageDisplay" id="output"><br/>
+
+    <input class="button" type="submit" value="Upload" id="uploadButton" disabled/>
+  </form><br/>
+
+  <div class="lds-ellipsis" id="load" style="display:none"><div></div><div></div><div></div><div></div></div>
+
+  <img id="displayImg" class="imageDisplay" src="{{ user_image }}" onerror="this.style.display='none'">
+
+ <p id="explanations" style='display: none'>{{ renderText }}<br/>
+    {{ renderText2 }}<br/>
+   {{ renderText3 }}</p><br/>
+
+  <button class="button" type='button' onclick="toggleText()">Explanations</button>
+
+  <form action="/get-image" method="post">
+    <input class="button" type="submit" value="Download" id="SRCcheck" disabled/>
+  </form>
+  <form action="/get-refresh" method="post" onsubmit="setTimeout(function () { window.location.reload(); }, 10)">
+    <input class="button" type="submit" value="Refresh"/>
+  </form>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+</body>
+
+<script>
+function checkSRC(){
+  var elem = document.getElementById('displayImg');
+  var src = document.getElementById("SRCcheck");
+
+  if(elem.getAttribute('src') == "")
+  {
+  src.disabled = true;
+  }
+  else
+  {
+  src.disabled = false;
+  }
+}
+window.onload = checkSRC;
+</script>
+
+<script>
+function loading() {
+  var load = document.getElementById("load");
+  if (load.style.display === "none") {
+    load.style.display = "block";
+  } else {
+    load.style.display = "none";
+  }
+}
+</script>
+
+<script>
+function toggleText() {
+  var text = document.getElementById("explanations");
+  if (text.style.display === "none") {
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+}
+</script>
+
+<script>
+// create references to the modal...
+var modal = document.getElementById('myModal');
+// to all images -- note I'm using a class!
+var images = document.getElementsByClassName('myImages');
+// the image in the modal
+var modalImg = document.getElementById("img01");
+// and the caption in the modal
+var captionText = document.getElementById("caption");
+
+// Go through all of the images with our custom class
+for (var i = 0; i < images.length; i++) {
+  var img = images[i];
+  // and attach our click listener for this image.
+  img.onclick = function(evt) {
+    console.log(evt);
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+  }
+}
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+</script>
+
+<script>
+var loadFile = function(event) {
+  var output = document.getElementById('output');
+  output.src = URL.createObjectURL(event.target.files[0]);
+  output.onload = function() {
+    URL.revokeObjectURL(output.src)
+  }
+};
+</script>
+<script>
+  $(document).ready(
+    function(){
+        $('input:file').change(
+            function(){
+                if ($(this).val()) {
+                    $('#uploadButton').attr('disabled',false);
+                }
+            }
+            );
+    });
+</script>
+</html>
